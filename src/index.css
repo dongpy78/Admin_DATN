@@ -233,6 +233,17 @@ button:disabled {
 }
 /* form */
 
+.form-row-container {
+  margin-bottom: 1rem;
+}
+
+.form-error {
+  color: #ff0000;
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+  display: block;
+}
+
 .form {
   width: 90vw;
   max-width: var(--fixed-width);
