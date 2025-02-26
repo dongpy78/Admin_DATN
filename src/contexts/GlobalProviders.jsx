@@ -4,7 +4,11 @@ import { useState } from "react";
 export const GlobalContext = React.createContext();
 
 const GlobalProvider = ({ children }) => {
-  const [user, setUser] = useState({ name: "john" });
+  const [user, setUser] = useState(() => {
+    // Khôi phục user từ localStorage nếu có
+    const savedUser = localStorage.getItem("user");
+    return savedUser ? JSON.parse(savedUser) : { name: "" };
+  });
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
@@ -21,12 +25,20 @@ const GlobalProvider = ({ children }) => {
 
   const logoutUser = () => {
     console.log("logoutUser");
-    setUser(null); // Hoặc thay đổi logic đăng xuất nếu cần
+    setUser({ name: "" }); // Reset user về giá trị mặc định
+    localStorage.removeItem("user"); // Xóa user khỏi localStorage
   };
 
   const data = {
     user,
-    setUser,
+    setUser: (newUser) => {
+      setUser(newUser);
+      if (newUser) {
+        localStorage.setItem("user", JSON.stringify(newUser)); // Lưu user vào localStorage
+      } else {
+        localStorage.removeItem("user");
+      }
+    },
     showSidebar,
     setShowSidebar,
     isDarkTheme,

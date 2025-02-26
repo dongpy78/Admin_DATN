@@ -1,14 +1,15 @@
-import { useState, useRef, useEffect } from "react";
-import { Form, redirect, useNavigate, useNavigation } from "react-router-dom";
+import { useState, useRef, useEffect, useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import Wrapper from "../../../assets/wrappers/RegisterAndLoginPage";
 import FormRow from "../../../components/layout-dashboard/FormRow";
 import SubmitBtn from "../../../components/layout-dashboard/SubmitBtn";
 import Logo from "../../../components/layout-dashboard/Logo";
 import { toast } from "react-toastify";
 import axiosInstance from "../../../libs/axiosInterceptor";
-import { saveToLocalStorage } from "../../../utils/localStorage"; // Thêm import
-import { keyLocalStorage } from "../../../constants/keyConstant"; // Đảm bảo import
+import { saveToLocalStorage } from "../../../utils/localStorage";
+import { keyLocalStorage } from "../../../constants/keyConstant";
 import { validateLoginForm } from "../../../utils/loginValidation";
+import { GlobalContext } from "../../../contexts/GlobalProviders";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -19,6 +20,7 @@ const Login = () => {
 
   // Tạo dấu hiệu (ref) cho ô email
   const focusRef = useRef(null);
+  const { setUser } = useContext(GlobalContext);
 
   // Tự động focus khi trang tải
   useEffect(() => {
@@ -54,9 +56,17 @@ const Login = () => {
         password: formData.password,
       });
 
-      // console.log("Response data:", response.data);
+      console.log("Response data:", response.data);
 
       if (response.status === 200 || response.status === 201) {
+        //! Cập nhật tên Admin
+        const userData = {
+          ...response.data.user, // Sửa từ data.user thành response.data.user
+          name: `${response.data.user.firstName} ${response.data.user.lastName}`, // Gộp tên
+        };
+        console.log("User Data: ", userData);
+        setUser(userData);
+
         saveToLocalStorage(
           keyLocalStorage.accessToken,
           response.data.accessToken
@@ -68,6 +78,7 @@ const Login = () => {
       }
     } catch (error) {
       // console.log("Error response:", error.response);
+      console.log(error);
       const apiErrors = {};
       if (error.response?.data?.message) {
         const errorMessage = error.response.data.message;
