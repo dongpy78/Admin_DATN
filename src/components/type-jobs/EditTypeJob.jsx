@@ -1,32 +1,73 @@
-import React from "react";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
-import { Form } from "react-router-dom";
-import FormRowSelect from "../layout-dashboard/FormRowSelect";
+import {
+  Form,
+  useActionData,
+  useLoaderData,
+  useNavigate,
+} from "react-router-dom";
 import SubmitBtn from "../layout-dashboard/SubmitBtn";
 import FormRow from "../layout-dashboard/FormRow";
+import axiosInstance from "../../libs/axiosInterceptor";
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "../../utils/toastNotifications";
+import { redirect } from "react-router-dom";
 
-// Dữ liệu giả cho user
-const USER_STATUS = {
-  ACTIVE: "active",
-  INACTIVE: "inactive",
-  PENDING: "pending",
+// Loader để lấy dữ liệu Type Job hiện tại
+export const loader = async ({ params }) => {
+  try {
+    const response = await axiosInstance.get(
+      `/list-allcodes?type=JOBTYPE&limit=10&offset=0`
+    );
+    const typeJob = response.data.data.rows.find(
+      (tj) => tj.code === params.code
+    );
+    if (!typeJob) {
+      showErrorToast("Type Job not found.");
+      return redirect("/admin/type-job");
+    }
+    return typeJob;
+  } catch (error) {
+    showErrorToast(
+      error?.response?.data?.message || "Failed to fetch type job."
+    );
+    return redirect("/admin/type-job");
+  }
 };
 
-const USER_ROLES = {
-  USER: "user",
-  ADMIN: "admin",
-  MODERATOR: "moderator",
+// Action để xử lý submit form
+export const action = async ({ request, params }) => {
+  const formData = await request.formData();
+  const data = {
+    code: params.code, // Lấy code từ params vì trường bị disable
+    type: "JOBTYPE", // Cố định theo dữ liệu test
+    value: formData.get("value"),
+    imgage: formData.get("image") || "", // Dùng "imgage" theo dữ liệu test
+  };
+
+  try {
+    console.log("Sending data to update-allcode:", data);
+
+    const response = await axiosInstance.patch("/update-allcode", data);
+
+    console.log("API response:", response.data);
+
+    showSuccessToast("Type job updated successfully!");
+    return redirect("/admin/type-job");
+  } catch (error) {
+    console.error("Error updating type job:", error.response?.data || error);
+    const errorMessage =
+      error?.response?.data?.message || "Failed to update type job.";
+    showErrorToast(errorMessage);
+    return { errors: { general: errorMessage } };
+  }
 };
 
-// Giả lập dữ liệu user hiện tại (sẽ được thay bằng dữ liệu thực từ props hoặc API)
-const mockUser = {
-  name: "John Doe",
-  email: "john.doe@example.com",
-  location: "Hà Nội",
-  status: USER_STATUS.ACTIVE,
-  role: USER_ROLES.USER,
-};
 const EditTypeJob = () => {
+  const typeJob = useLoaderData();
+  const actionData = useActionData();
+
   return (
     <Wrapper>
       <Form method="post" className="form">
@@ -34,34 +75,41 @@ const EditTypeJob = () => {
         <div className="form-center">
           <FormRow
             type="text"
-            name="name"
-            labelText="Name"
-            defaultValue={mockUser.name} // Dữ liệu giả
-          />
-          <FormRow
-            type="email"
-            name="email"
-            labelText="Email"
-            defaultValue={mockUser.email} // Dữ liệu giả
+            name="code"
+            labelText="Code"
+            defaultValue={typeJob.code}
+            disabled
           />
           <FormRow
             type="text"
-            labelText="Location"
-            name="location"
-            defaultValue={mockUser.location} // Dữ liệu giả
+            name="type"
+            labelText="JOBTYPE"
+            defaultValue={typeJob.type}
+            disabled
           />
-          <FormRowSelect
-            labelText="User Status"
-            name="status"
-            defaultValue={mockUser.status} // Dữ liệu giả
-            list={Object.values(USER_STATUS)}
+
+          <FormRow
+            type="text"
+            name="value"
+            labelText="Type Job Name"
+            defaultValue={typeJob.value}
+            placeholder="e.g., Phân tích dữ liệu lớn"
           />
-          <FormRowSelect
-            name="role"
-            labelText="Role"
-            defaultValue={mockUser.role} // Dữ liệu giả
-            list={Object.values(USER_ROLES)}
-          />
+          {actionData?.errors?.value && (
+            <span className="form-error">{actionData.errors.value}</span>
+          )}
+          <div className="form-row">
+            <label htmlFor="image" className="form-label">
+              Select an image file (max 0.5 MB):
+            </label>
+            <input
+              type="file"
+              id="avatar"
+              name="avatar"
+              className="form-input"
+              accept="image/*"
+            />
+          </div>
           <SubmitBtn formBtn />
         </div>
       </Form>
