@@ -8,6 +8,8 @@ import Skill from "../pages/skills";
 import DashboardLayout from "../pages/dashboard-layout";
 import AddUser from "../components/users/AddUser";
 import EditUser from "../components/users/EditUser";
+import AddTypeJob from "../components/type-jobs/AddTypeJob";
+import EditTypeJob from "../components/type-jobs/EditTypeJob";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -25,8 +27,10 @@ const AdminRoutes = {
     { path: "users", element: <User /> },
     { path: "users/add", element: <AddUser /> },
     { path: "users/edit", element: <EditUser /> },
+    { path: "type-job", element: <TypeJob /> },
+    { path: "type-job/add", element: <AddTypeJob /> },
+    { path: "type-job/edit", element: <EditTypeJob /> },
     { path: "admin", element: <AdminPage /> },
-    { path: "jobs", element: <TypeJob /> },
     { path: "profile", element: <Profile /> },
     { path: "skills", element: <Skill /> },
     { path: "*", element: <NotFound /> },

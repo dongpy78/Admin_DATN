@@ -1,6 +1,5 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
 import { FaLock, FaUnlock } from "react-icons/fa";
 import UserTableWrapper from "../../assets/wrappers/UserTableWrapper";
 import { Link } from "react-router-dom";

@@ -18,7 +18,7 @@ const links = [
   },
   {
     text: "Jobs",
-    path: "jobs",
+    path: "type-job",
     icon: <MdQueryStats />,
   },
   {
