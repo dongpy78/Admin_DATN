@@ -10,6 +10,10 @@ import { saveToLocalStorage } from "../../../utils/localStorage";
 import { keyLocalStorage } from "../../../constants/keyConstant";
 import { validateLoginForm } from "../../../utils/loginValidation";
 import { GlobalContext } from "../../../contexts/GlobalProviders";
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "../../../utils/toastNotifications";
 const Login = () => {
   const [formData, setFormData] = useState({
     email: "",
@@ -71,10 +75,10 @@ const Login = () => {
           keyLocalStorage.accessToken,
           response.data.accessToken
         );
-        toast.success("Login successful!");
+        showSuccessToast("Login successful!");
         navigate("/admin");
       } else {
-        toast.error(`Unexpected status code: ${response.status}`);
+        showErrorToast(`Unexpected status code: ${response.status}`);
       }
     } catch (error) {
       // console.log("Error response:", error.response);
@@ -87,10 +91,10 @@ const Login = () => {
         } else if (errorMessage.includes("password")) {
           apiErrors.password = errorMessage;
         } else {
-          toast.error(errorMessage);
+          showErrorToast(errorMessage);
         }
       } else {
-        toast.error(
+        showErrorToast(
           "Login failed. Please check your network or server status."
         );
       }

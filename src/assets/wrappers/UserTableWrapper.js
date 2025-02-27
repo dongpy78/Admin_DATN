@@ -1,116 +1,47 @@
-// assets/wrappers/UserTableWrapper.js
 import styled from "styled-components";
 
-const UserTableWrapper = styled.section`
-  margin-top: 2rem;
-
+const UserTableWrapper = styled.div`
   .users-container {
-    background: var(--background-secondary-color);
-    border-radius: var(--border-radius);
-    box-shadow: var(--shadow-2);
-    overflow: hidden;
-    border: 1px solid var(--grey-100);
+    overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
     max-width: 100%;
-    overflow-x: auto;
+    margin: 1rem 0 1rem 0;
   }
 
-  h5 {
+  .title-manage-user {
+    font-size: 24px;
+    font-weight: 500;
     margin-bottom: 1rem;
+  }
+
+  .title-amount {
+    font-size: 16px;
   }
 
   table {
     width: 100%;
-    border-collapse: collapse;
-    min-width: 800px;
+    border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
+    table-layout: auto; /* Tự động điều chỉnh chiều rộng cột */
+  }
+
+  th,
+  td {
+    padding: 10px; /* Khoảng cách trong ô */
+    text-align: left;
+    white-space: nowrap; /* Ngăn nội dung xuống dòng */
+    overflow: hidden; /* Ẩn nội dung tràn */
+    text-overflow: ellipsis; /* Hiển thị "..." nếu nội dung quá dài */
   }
 
   th {
-    padding: 1.25rem 1.5rem;
-    background: #0b7285;
-    text-align: left;
-    text-transform: uppercase;
-    font-size: 0.85rem;
-    letter-spacing: 1px;
-    color: var(--white);
-    border-bottom: 2px solid var(--primary-200);
+    background-color: #0b7285; /* Màu nền cho header */
+    font-weight: bold;
+    color: #fff;
   }
 
   td {
-    padding: 1rem 1.25rem;
-    border-bottom: 1px solid var(--grey-100);
-    color: var(--text-color);
-    transition: background 0.3s ease;
-  }
-
-  tr:hover td {
-    background: var(--grey-50);
+    background: #f8f9fa;
     color: #000;
-  }
-
-  .actions {
-    display: flex;
-    gap: 0.75rem;
-  }
-
-  /* Style chung cho button và Link */
-  button,
-  a.edit-btn {
-    padding: 0.5rem; /* Giảm padding để phù hợp với icon */
-    border: none;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    transition: all 0.3s ease;
-    display: inline-flex; /* Đảm bảo icon căn giữa */
-    align-items: center;
-    justify-content: center;
-  }
-
-  .edit-btn {
-    height: 40px;
-    width: 40px;
-    background: var(--primary-500);
-    color: white;
-    text-decoration: none; /* Loại bỏ gạch chân của Link */
-    &:hover {
-      background: var(--primary-700);
-      transform: translateY(-1px);
-    }
-  }
-
-  .delete-btn {
-    height: 40px;
-    width: 40px;
-    background: #e03131;
-    color: white;
-    &:hover {
-      background: #c92a2a;
-      transform: translateY(-1px);
-    }
-  }
-
-  /* Style cho icon bên trong */
-  .edit-btn > svg,
-  .delete-btn > svg {
-    width: 1rem;
-    height: 1rem;
-    fill: white;
-  }
-
-  .add-user-btn {
-    margin-top: 1.5rem;
-    width: 100%;
-    padding: 0.75rem;
-    background: #1098ad;
-    color: white;
-    text-align: center;
-    font-weight: bold;
-    font-size: 1rem;
-    box-shadow: var(--shadow-1);
-    &:hover {
-      background: #0c8599;
-      transform: translateY(-2px);
-      box-shadow: var(--shadow-2);
-    }
+    border-bottom: 1px solid #ddd; /* Đường viền dưới mỗi hàng */
   }
 
   /* Thanh cuộn ngang */
@@ -139,13 +70,98 @@ const UserTableWrapper = styled.section`
     scrollbar-color: var(--primary-500) var(--grey-100);
   }
 
-  @media (max-width: 768px) {
-    table {
-      min-width: 600px;
-    }
-    .add-user-btn {
-      width: 100%;
-    }
+  /* Giới hạn chiều rộng cho các cột cụ thể */
+  th:nth-child(1),
+  td:nth-child(1) {
+    width: 50px; /* ID */
+  }
+  th:nth-child(2),
+  td:nth-child(2) {
+    min-width: 150px; /* Name */
+  }
+  th:nth-child(3),
+  td:nth-child(3) {
+    min-width: 200px; /* Email */
+  }
+  th:nth-child(4),
+  td:nth-child(4) {
+    width: 100px; /* Role */
+  }
+  th:nth-child(5),
+  td:nth-child(5) {
+    width: 120px; /* Date of Birth */
+  }
+  th:nth-child(6),
+  td:nth-child(6) {
+    width: 80px; /* Gender */
+  }
+  th:nth-child(7),
+  td:nth-child(7) {
+    width: 120px; /* Status */
+  }
+  th:nth-child(8),
+  td:nth-child(8) {
+    width: 150px; /* Actions */
+  }
+
+  .actions {
+    display: flex;
+    gap: 8px; /* Khoảng cách giữa các nút */
+    align-items: center;
+  }
+
+  .edit-btn,
+  .delete-btn,
+  .ban-unban-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem; /* Kích thước icon */
+  }
+
+  .edit-btn {
+    color: #007bff; /* Màu xanh cho Edit */
+  }
+  .edit-btn:hover {
+    color: #0056b3;
+  }
+
+  .delete-btn {
+    color: #dc3545; /* Màu đỏ cho Delete */
+  }
+  .delete-btn:hover {
+    color: #a71d2a;
+  }
+
+  .ban-unban-btn {
+    color: #ff9800; /* Màu cam cho Ban/Unban */
+  }
+  .ban-unban-btn:hover {
+    color: #e65100;
+  }
+
+  .status-active {
+    color: #ffffff;
+    background-color: #28a745;
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  .status-inactive {
+    color: #ffffff;
+    background-color: #dc3545;
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  .status-default {
+    color: #ffffff;
+    background-color: #6c757d;
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
   }
 `;
 

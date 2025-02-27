@@ -8,6 +8,10 @@ import axiosInstance from "../../libs/axiosInterceptor";
 import { deleteFromLocalStorage } from "../../utils/localStorage";
 import { keyLocalStorage } from "../../constants/keyConstant";
 import { useNavigate } from "react-router-dom";
+import {
+  showSuccessToast,
+  showErrorToast,
+} from "../../utils/toastNotifications";
 
 const LogoutContainer = () => {
   const { user, logoutUser } = useContext(GlobalContext);
@@ -20,16 +24,16 @@ const LogoutContainer = () => {
       if (status === 200 || status === 201) {
         deleteFromLocalStorage(keyLocalStorage.accessToken); // Xóa token
         logoutUser();
-        toast.success("Logout successful!");
+        showSuccessToast("Logout successful!");
         navigate("/"); // Chuyển về trang login
       } else {
-        toast.error(`Unexpected status: ${status}`);
+        showErrorToast(`Unexpected status: ${status}`);
       }
     } catch (error) {
       console.log(error);
       const message =
         error.response?.data?.message || "Logout failed. Please try again.";
-      toast.error(message);
+      showErrorToast(message);
       if (error.response?.status === 401) {
         // Token có thể đã hết hạn, vẫn xóa và chuyển hướng
         deleteFromLocalStorage(keyLocalStorage.accessToken);

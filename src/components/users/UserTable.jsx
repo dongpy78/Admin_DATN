@@ -1,10 +1,13 @@
 import React from "react";
 import { FaEdit } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { FaLock, FaUnlock } from "react-icons/fa";
 import UserTableWrapper from "../../assets/wrappers/UserTableWrapper";
 import { Link } from "react-router-dom";
 
-const UserTable = ({ users }) => {
+const UserTable = ({ users, onBanUnban }) => {
+  console.log("Users data:", users);
+
   if (!users || users.length === 0) {
     return (
       <UserTableWrapper>
@@ -14,9 +17,7 @@ const UserTable = ({ users }) => {
   }
   return (
     <UserTableWrapper>
-      <h5>
-        {users.length} user{users.length > 1 ? "s" : ""} found
-      </h5>
+      <h5 className="title-amount">Số lượng người dùng: {users.length}</h5>
       <div className="users-container">
         <table>
           <thead>
@@ -24,7 +25,11 @@ const UserTable = ({ users }) => {
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
+              <th>Phone</th>
               <th>Role</th>
+              <th>Date of Birth</th>
+              <th>Gender</th>
+              <th>Status</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -32,18 +37,60 @@ const UserTable = ({ users }) => {
             {users.map((user) => (
               <tr key={user.id}>
                 <td>{user.id}</td>
-                <td>{user.name}</td>
+                <td>{`${user.userAccountData.firstName} ${user.userAccountData.lastName}`}</td>
                 <td>{user.email}</td>
-                <td>{user.role}</td>
+                <td>{user.userAccountData.phonenumber}</td>
+                <td>{user.roleData.value}</td>
+
+                <td>
+                  {user.userAccountData.dob
+                    ? new Date(user.userAccountData.dob).toLocaleDateString()
+                    : "N/A"}
+                </td>
+                <td>{user.userAccountData.genderData.value}</td>
+                <td>
+                  <span
+                    className={
+                      user.statusAccountData.value === "Đã kích hoạt"
+                        ? "status-active"
+                        : user.statusAccountData.value === "Chưa kích hoạt"
+                        ? "status-inactive"
+                        : "status-default" // Thêm class mặc định nếu cần
+                    }
+                  >
+                    {user.statusAccountData.value}
+                  </span>
+                </td>
                 <td className="actions">
-                  <Link to={`/admin/users/edit`} className="edit-btn">
+                  <Link
+                    title="Edit user"
+                    to={`/admin/users/edit/${user.id}`}
+                    className="edit-btn"
+                  >
                     <FaEdit />
                   </Link>
-                  <button
+                  {/* <button
+                    title="Delete User"
                     className="delete-btn"
                     onClick={() => onDelete(user.id)}
                   >
                     <MdDelete />
+                  </button> */}
+
+                  <button
+                    className="ban-unban-btn"
+                    onClick={() => onBanUnban(user.id)}
+                    title={
+                      user.statusAccountData.value === "Đã kích hoạt"
+                        ? "Ban user"
+                        : "Unban user"
+                    }
+                  >
+                    {user.statusAccountData.value === "Đã kích hoạt" ? (
+                      <FaLock />
+                    ) : (
+                      <FaUnlock />
+                    )}
                   </button>
                 </td>
               </tr>

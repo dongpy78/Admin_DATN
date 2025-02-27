@@ -1,0 +1,180 @@
+// assets/wrappers/UserTableWrapper.js
+import styled from "styled-components";
+
+const UserTableWrapper = styled.section`
+  margin-top: 2rem;
+
+  .users-container {
+    background: var(--background-secondary-color);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-2);
+    overflow: hidden;
+    border: 1px solid var(--grey-100);
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  h5 {
+    margin-bottom: 1rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    min-width: 800px;
+    table-layout: auto;
+  }
+
+  th {
+    padding: 1.25rem 1.5rem;
+    background: #0b7285;
+    text-align: left;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+    letter-spacing: 1px;
+    color: var(--white);
+    border-bottom: 2px solid var(--primary-200);
+  }
+
+  td {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--grey-100);
+    color: var(--text-color);
+    transition: background 0.3s ease;
+  }
+
+  tr:hover td {
+    background: var(--grey-50);
+    color: #000;
+  }
+
+  .actions {
+    display: flex;
+    gap: 0.75rem;
+  }
+
+  .status-active {
+    color: #ffffff;
+    background-color: #28a745; /* Xanh lá cây */
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  .status-inactive {
+    color: #ffffff;
+    background-color: #dc3545; /* Đỏ */
+    padding: 4px 8px;
+    border-radius: 12px;
+    display: inline-block;
+  }
+
+  .ban-unban-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    margin-left: 8px;
+    color: #ff9800;
+  }
+  .ban-unban-btn:hover {
+    color: #e65100;
+  }
+
+  /* Style chung cho button và Link */
+  button,
+  a.edit-btn {
+    padding: 0.5rem; /* Giảm padding để phù hợp với icon */
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: inline-flex; /* Đảm bảo icon căn giữa */
+    align-items: center;
+    justify-content: center;
+  }
+
+  .edit-btn {
+    height: 40px;
+    width: 40px;
+    background: var(--primary-500);
+    color: white;
+    text-decoration: none; /* Loại bỏ gạch chân của Link */
+    &:hover {
+      background: var(--primary-700);
+      transform: translateY(-1px);
+    }
+  }
+
+  .delete-btn {
+    height: 40px;
+    width: 40px;
+    background: #e03131;
+    color: white;
+    &:hover {
+      background: #c92a2a;
+      transform: translateY(-1px);
+    }
+  }
+
+  /* Style cho icon bên trong */
+  .edit-btn > svg,
+  .delete-btn > svg {
+    width: 1rem;
+    height: 1rem;
+    fill: white;
+  }
+
+  .add-user-btn {
+    margin-top: 1.5rem;
+    width: 100%;
+    padding: 0.75rem;
+    background: #1098ad;
+    color: white;
+    text-align: center;
+    font-weight: bold;
+    font-size: 1rem;
+    box-shadow: var(--shadow-1);
+    &:hover {
+      background: #0c8599;
+      transform: translateY(-2px);
+      box-shadow: var(--shadow-2);
+    }
+  }
+
+  /* Thanh cuộn ngang */
+  .users-container::-webkit-scrollbar {
+    height: 3px;
+  }
+
+  .users-container::-webkit-scrollbar-track {
+    background: var(--grey-100);
+    border-radius: 6px;
+    margin: 0 5px;
+  }
+
+  .users-container::-webkit-scrollbar-thumb {
+    background: var(--primary-500);
+    border-radius: 6px;
+    border: 2px solid var(--grey-100);
+  }
+
+  .users-container::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-700);
+  }
+
+  .users-container {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary-500) var(--grey-100);
+  }
+
+  @media (max-width: 768px) {
+    table {
+      min-width: 600px;
+    }
+    .add-user-btn {
+      width: 100%;
+    }
+  }
+`;
+
+export default UserTableWrapper;
