@@ -4,7 +4,7 @@ import { FaEdit } from "react-icons/fa";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import { Link } from "react-router-dom";
 
-const TypeJobTable = ({ typeJobs, onDelete }) => {
+const TypeJobTable = ({ typeJobs, onDelete, currentPage = 1 }) => {
   if (!typeJobs || typeJobs.length === 0) {
     return (
       <JobTableWrapper>
@@ -12,10 +12,10 @@ const TypeJobTable = ({ typeJobs, onDelete }) => {
       </JobTableWrapper>
     );
   }
+  const itemsPerPage = 5;
   return (
     <JobTableWrapper>
       <h5 className="title-list-job">Danh sách Loại Công Việc</h5>
-
       <h5 className="title-amount">Số lượng công việc: {typeJobs.length}</h5>
       <div className="jobtype-container">
         <table>
@@ -32,8 +32,7 @@ const TypeJobTable = ({ typeJobs, onDelete }) => {
           <tbody>
             {typeJobs.map((typeJob, index) => (
               <tr key={typeJob.code}>
-                {/* Dùng code làm key vì API không có id */}
-                <td>{index + 1}</td>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                 <td>{typeJob.value}</td>
                 <td>{typeJob.code}</td>
                 <td>{typeJob.type}</td>
@@ -41,7 +40,7 @@ const TypeJobTable = ({ typeJobs, onDelete }) => {
                 <td className="actions">
                   <Link
                     title="Edit type job"
-                    to={`/admin/type-job/edit/${typeJob.code}`} // Dùng code cho đường dẫn
+                    to={`/admin/type-job/edit/${typeJob.code}`}
                     className="edit-btn"
                   >
                     <FaEdit />

@@ -18,7 +18,7 @@ const LayoutAdmin = ({ isDarkThemeEnabled }) => {
       <main className={`dashboard ${isDarkTheme ? "dark-theme" : ""}`}>
         <SmallSidebar />
         <BigSidebar />
-        <div>
+        <div style={{ height: "100%" }}>
           <Navbar />
           <div className="dashboard-page">
             <Outlet />

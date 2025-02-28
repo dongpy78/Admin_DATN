@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-const UserTableWrapper = styled.section`
+const JobTableWrapper = styled.section`
   border-radius: var(--border-radius);
   width: 100%;
   background: var(--background-secondary-color);
@@ -158,4 +158,4 @@ const UserTableWrapper = styled.section`
   }
 `;
 
-export default UserTableWrapper;
+export default JobTableWrapper;
