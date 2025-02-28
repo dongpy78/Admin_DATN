@@ -38,9 +38,9 @@ const JobTableWrapper = styled.section`
   }
 
   th {
-    background-color: #0b7285; /* Màu nền cho header */
-    font-weight: bold;
+    background-color: var(--primary-500); /* Màu nền cho header */
     color: #fff;
+    font-weight: normal;
   }
 
   td {
