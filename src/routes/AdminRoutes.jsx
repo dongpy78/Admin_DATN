@@ -19,6 +19,8 @@ import {
   loader as typeJobLoader,
   action as typeJobAction,
 } from "../pages/type-job";
+import AddSkill from "../components/skills/AddSkill";
+import EditSkill from "../components/skills/EditSkill";
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -48,9 +50,11 @@ const AdminRoutes = {
       loader: editTypeJobLoader,
       action: editTypeJobAction,
     },
+    { path: "skills", element: <Skill /> },
+    { path: "skills/add", element: <AddSkill /> },
+    { path: "skills/edit", element: <EditSkill /> },
     { path: "admin", element: <AdminPage /> },
     { path: "profile", element: <Profile /> },
-    { path: "skills", element: <Skill /> },
     { path: "*", element: <NotFound /> },
   ],
 };
