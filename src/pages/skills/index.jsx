@@ -89,7 +89,7 @@ export const action = async ({ request }) => {
   } catch (error) {
     console.error("Error in action:", error.message || error);
     console.error("Error details:", error.response?.data || error);
-    showErrorToast(error.response?.data?.message || "Failed to fetch skills.");
+
     return {
       skills: [],
       numOfPages: 1,
@@ -169,12 +169,12 @@ const Skills = () => {
   const handlePageChange = (pageNumber) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", pageNumber);
-    navigate(`/admin/skills?${searchParams.toString()}`);
+    navigate(`/admin/work-skill?${searchParams.toString()}`);
   };
 
   useEffect(() => {
-    console.log("actionData:", actionData);
-    console.log("loaderData:", loaderData);
+    // console.log("actionData:", actionData);
+    // console.log("loaderData:", loaderData);
     if (actionData && "skills" in actionData) {
       setSkills(actionData.skills || []);
       setTotalCount(actionData.totalCount || 0);

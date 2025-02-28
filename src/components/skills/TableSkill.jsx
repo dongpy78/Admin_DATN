@@ -44,7 +44,7 @@ const TableSkill = ({
                 <td className="actions">
                   <Link
                     title="Edit skill"
-                    to={`/admin/skills/edit/${skill.id}`}
+                    to={`/admin/work-skill/edit/${skill.id}`}
                     className="edit-btn"
                     onClick={() => fetchSkills(currentPage)} // Làm mới sau khi quay lại từ edit
                   >
@@ -63,7 +63,7 @@ const TableSkill = ({
           </tbody>
         </table>
       </div>
-      <Link to="/admin/skills/add" className="btn add-user-btn">
+      <Link to="/admin/work-skill/add" className="btn add-user-btn">
         Add Skill
       </Link>
     </SkillTableWrapper>

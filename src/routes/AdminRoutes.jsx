@@ -34,6 +34,10 @@ import {
   loader as addSkillLoader,
   action as addSkillAction,
 } from "../components/skills/AddSkill";
+import Level from "../pages/level";
+import WorkType from "../pages/work-type";
+import Salary from "../pages/salary";
+import Experience from "../pages/experience";
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -47,9 +51,9 @@ const AdminRoutes = {
   element: <LayoutAdmin isDarkThemeEnabled={isDarkThemeEnabled} />, // Sử dụng LayoutAdmin
   children: [
     { index: true, path: "", element: <DashboardLayout /> },
-    { path: "users", element: <User /> },
-    { path: "users/add", element: <AddUser /> },
-    { path: "users/edit", element: <EditUser /> },
+    { path: "list-user", element: <User /> },
+    { path: "list-user/add", element: <AddUser /> },
+    { path: "list-user/edit", element: <EditUser /> },
     {
       path: "type-job",
       element: <TypeJob />,
@@ -64,23 +68,27 @@ const AdminRoutes = {
       action: editTypeJobAction,
     },
     {
-      path: "skills",
+      path: "work-skill",
       element: <Skills />,
       loader: skillsLoader,
       action: skillsAction,
     },
     {
-      path: "skills/add",
+      path: "work-skill/add",
       element: <AddSkill />,
       loader: addSkillLoader, // Đảm bảo loader được định nghĩa
       action: addSkillAction,
     },
     {
-      path: "skills/edit/:id",
+      path: "work-skill/edit/:id",
       element: <EditSkill />,
       loader: editSkillLoader,
       action: editSkillAction,
     },
+    { path: "work-level", element: <Level /> },
+    { path: "work-type", element: <WorkType /> },
+    { path: "work-salary", element: <Salary /> },
+    { path: "work-exp", element: <Experience /> },
     { path: "admin", element: <AdminPage /> },
     { path: "profile", element: <Profile /> },
     { path: "*", element: <NotFound /> },
