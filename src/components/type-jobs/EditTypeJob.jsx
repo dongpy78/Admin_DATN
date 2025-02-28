@@ -91,7 +91,7 @@ const EditTypeJob = () => {
           <FormRow
             type="text"
             name="value"
-            labelText="Type Job Name"
+            labelText="Value"
             defaultValue={typeJob.value}
             placeholder="e.g., Phân tích dữ liệu lớn"
           />

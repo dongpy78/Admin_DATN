@@ -1,15 +1,20 @@
 import styled from "styled-components";
 
-const UserTableWrapper = styled.div`
+const UserTableWrapper = styled.section`
+  border-radius: var(--border-radius);
+  width: 100%;
+  background: var(--background-secondary-color);
+  /* padding: 3rem 2rem 4rem; */
+  padding: 0 2rem 2rem 2rem;
+
   .jobtype-container {
     overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
     max-width: 100%;
     margin: 1rem 0 1rem 0;
   }
 
-  .title-manage-user {
-    font-size: 24px;
-    font-weight: 500;
+  .title-list-job {
+    font-size: 23px;
     margin-bottom: 1rem;
   }
 

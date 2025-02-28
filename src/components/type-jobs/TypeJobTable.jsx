@@ -8,23 +8,23 @@ const TypeJobTable = ({ typeJobs, onDelete }) => {
   if (!typeJobs || typeJobs.length === 0) {
     return (
       <JobTableWrapper>
-        <h2>No type jobs to display...</h2>
+        <h5>No type jobs to display...</h5>
       </JobTableWrapper>
     );
   }
   return (
     <JobTableWrapper>
-      <h5>
-        {typeJobs.length} type job{typeJobs.length > 1 ? "s" : ""} found
-      </h5>
+      <h5 className="title-list-job">Danh sách Loại Công Việc</h5>
+
+      <h5 className="title-amount">Số lượng công việc: {typeJobs.length}</h5>
       <div className="jobtype-container">
         <table>
           <thead>
             <tr>
               <th>STT</th>
+              <th>Tên công việc</th>
               <th>Mã code</th>
               <th>Loại công việc</th>
-              <th>Tên công việc</th>
               <th>Hình ảnh</th>
               <th>Actions</th>
             </tr>
@@ -34,9 +34,9 @@ const TypeJobTable = ({ typeJobs, onDelete }) => {
               <tr key={typeJob.code}>
                 {/* Dùng code làm key vì API không có id */}
                 <td>{index + 1}</td>
+                <td>{typeJob.value}</td>
                 <td>{typeJob.code}</td>
                 <td>{typeJob.type}</td>
-                <td>{typeJob.value}</td>
                 <td>{typeJob.image || "N/A"}</td>
                 <td className="actions">
                   <Link

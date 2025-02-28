@@ -15,6 +15,10 @@ import {
   loader as editTypeJobLoader,
   action as editTypeJobAction,
 } from "../components/type-jobs/EditTypeJob";
+import {
+  loader as typeJobLoader,
+  action as typeJobAction,
+} from "../pages/type-job";
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -31,7 +35,12 @@ const AdminRoutes = {
     { path: "users", element: <User /> },
     { path: "users/add", element: <AddUser /> },
     { path: "users/edit", element: <EditUser /> },
-    { path: "type-job", element: <TypeJob /> },
+    {
+      path: "type-job",
+      element: <TypeJob />,
+      loader: typeJobLoader,
+      action: typeJobAction,
+    },
     { path: "type-job/add", element: <AddTypeJob />, action: addTypeJobAction },
     {
       path: "type-job/edit/:code",
