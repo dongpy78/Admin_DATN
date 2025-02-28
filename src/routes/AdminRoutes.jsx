@@ -11,7 +11,12 @@ import AddTypeJob, { action } from "../components/type-jobs/AddTypeJob";
 import EditTypeJob from "../components/type-jobs/EditTypeJob";
 import AddSkill from "../components/skills/AddSkill";
 import EditSkill from "../components/skills/EditSkill";
+import Level from "../pages/level";
+import WorkType from "../pages/work-type";
+import Salary from "../pages/salary";
+import Experience from "../pages/experience";
 
+//! TYPEJOB
 import { action as addTypeJobAction } from "../components/type-jobs/AddTypeJob";
 import {
   loader as editTypeJobLoader,
@@ -22,6 +27,15 @@ import {
   action as typeJobAction,
 } from "../pages/type-job";
 
+//! LEVEL
+import AddLevel, { action as addLevel } from "../components/levels/AddLevel";
+import EditLevel, {
+  loader as editLevelLoader,
+  action as editLevelAction,
+} from "../components/levels/EditLevel";
+import { loader as levelLoader, action as levelAction } from "../pages/level";
+
+//! SKILLS
 import Skills, {
   loader as skillsLoader,
   action as skillsAction,
@@ -34,10 +48,7 @@ import {
   loader as addSkillLoader,
   action as addSkillAction,
 } from "../components/skills/AddSkill";
-import Level from "../pages/level";
-import WorkType from "../pages/work-type";
-import Salary from "../pages/salary";
-import Experience from "../pages/experience";
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -50,10 +61,13 @@ const AdminRoutes = {
   path: "/admin",
   element: <LayoutAdmin isDarkThemeEnabled={isDarkThemeEnabled} />, // Sử dụng LayoutAdmin
   children: [
+    //! USERS
     { index: true, path: "", element: <DashboardLayout /> },
     { path: "list-user", element: <User /> },
     { path: "list-user/add", element: <AddUser /> },
     { path: "list-user/edit", element: <EditUser /> },
+
+    //! TYPE-JOB
     {
       path: "type-job",
       element: <TypeJob />,
@@ -67,6 +81,8 @@ const AdminRoutes = {
       loader: editTypeJobLoader,
       action: editTypeJobAction,
     },
+
+    //! WORK SKILL
     {
       path: "work-skill",
       element: <Skills />,
@@ -85,7 +101,27 @@ const AdminRoutes = {
       loader: editSkillLoader,
       action: editSkillAction,
     },
-    { path: "work-level", element: <Level /> },
+
+    //! WORK LEVEL
+    {
+      path: "work-level",
+      element: <Level />,
+      loader: levelLoader,
+      action: levelAction,
+    },
+    {
+      path: "work-level/add",
+      element: <AddLevel />,
+      action: addLevel,
+    },
+    {
+      path: "work-level/edit/:code",
+      element: <EditLevel />,
+      loader: editLevelLoader,
+      action: editLevelAction,
+    },
+
+    //! WORK TYPE
     { path: "work-type", element: <WorkType /> },
     { path: "work-salary", element: <Salary /> },
     { path: "work-exp", element: <Experience /> },
