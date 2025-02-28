@@ -4,44 +4,67 @@ import { FaEdit } from "react-icons/fa";
 import SkillTableWrapper from "../../assets/wrappers/SkillTableWrapper";
 import { Link } from "react-router-dom";
 
-const TableSkill = () => {
+const TableSkill = ({
+  skills,
+  onDelete,
+  currentPage = 1,
+  totalCount = 0,
+  fetchSkills,
+}) => {
+  if (!skills || skills.length === 0) {
+    return (
+      <SkillTableWrapper>
+        <h5>No skills to display...</h5>
+      </SkillTableWrapper>
+    );
+  }
+
+  const itemsPerPage = 5;
+
   return (
     <SkillTableWrapper>
+      <h5 className="title-list-job">Danh sách Kỹ Năng</h5>
+      <h5 className="title-amount">Tổng số lượng kỹ năng: {totalCount}</h5>
       <div className="skill-container">
         <table>
           <thead>
             <tr>
               <th>STT</th>
-              <th>Mã code</th>
-              <th>Tên công việc</th>
-              <th>Hình ảnh</th>
+              <th>Tên kỹ năng</th>
+              <th>Lĩnh vực</th>
               <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr key="1">
-              <td>1</td>
-              <td>Công nghệ thông tin</td>
-              <td>cong-nghe-thong-tin</td>
-              <td>heheheh</td>
-              <td className="actions">
-                <Link
-                  title="Edit user"
-                  to={`/admin/skills/edit`}
-                  className="edit-btn"
-                >
-                  <FaEdit />
-                </Link>
-                <button title="Delete User" className="delete-btn">
-                  <MdDelete />
-                </button>
-              </td>
-            </tr>
+            {skills.map((skill, index) => (
+              <tr key={skill.id}>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                <td>{skill.name}</td>
+                <td>{skill.categoryJobCode}</td>
+                <td className="actions">
+                  <Link
+                    title="Edit skill"
+                    to={`/admin/skills/edit/${skill.id}`}
+                    className="edit-btn"
+                    onClick={() => fetchSkills(currentPage)} // Làm mới sau khi quay lại từ edit
+                  >
+                    <FaEdit />
+                  </Link>
+                  <button
+                    title="Delete Skill"
+                    onClick={() => onDelete(skill.id)}
+                    className="delete-btn"
+                  >
+                    <MdDelete />
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
       <Link to="/admin/skills/add" className="btn add-user-btn">
-        Add Type Job
+        Add Skill
       </Link>
     </SkillTableWrapper>
   );

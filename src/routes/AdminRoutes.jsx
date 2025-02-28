@@ -4,12 +4,14 @@ import User from "../pages/users";
 import AdminPage from "../pages/admin-page";
 import TypeJob from "../pages/type-job";
 import Profile from "../pages/profile";
-import Skill from "../pages/skills";
 import DashboardLayout from "../pages/dashboard-layout";
 import AddUser from "../components/users/AddUser";
 import EditUser from "../components/users/EditUser";
 import AddTypeJob, { action } from "../components/type-jobs/AddTypeJob";
 import EditTypeJob from "../components/type-jobs/EditTypeJob";
+import AddSkill from "../components/skills/AddSkill";
+import EditSkill from "../components/skills/EditSkill";
+
 import { action as addTypeJobAction } from "../components/type-jobs/AddTypeJob";
 import {
   loader as editTypeJobLoader,
@@ -19,8 +21,19 @@ import {
   loader as typeJobLoader,
   action as typeJobAction,
 } from "../pages/type-job";
-import AddSkill from "../components/skills/AddSkill";
-import EditSkill from "../components/skills/EditSkill";
+
+import Skills, {
+  loader as skillsLoader,
+  action as skillsAction,
+} from "../pages/skills";
+import {
+  loader as editSkillLoader,
+  action as editSkillAction,
+} from "../components/skills/EditSkill";
+import {
+  loader as addSkillLoader,
+  action as addSkillAction,
+} from "../components/skills/AddSkill";
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -50,9 +63,24 @@ const AdminRoutes = {
       loader: editTypeJobLoader,
       action: editTypeJobAction,
     },
-    { path: "skills", element: <Skill /> },
-    { path: "skills/add", element: <AddSkill /> },
-    { path: "skills/edit", element: <EditSkill /> },
+    {
+      path: "skills",
+      element: <Skills />,
+      loader: skillsLoader,
+      action: skillsAction,
+    },
+    {
+      path: "skills/add",
+      element: <AddSkill />,
+      loader: addSkillLoader, // Đảm bảo loader được định nghĩa
+      action: addSkillAction,
+    },
+    {
+      path: "skills/edit/:id",
+      element: <EditSkill />,
+      loader: editSkillLoader,
+      action: editSkillAction,
+    },
     { path: "admin", element: <AdminPage /> },
     { path: "profile", element: <Profile /> },
     { path: "*", element: <NotFound /> },
