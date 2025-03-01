@@ -49,6 +49,19 @@ import {
   action as addSkillAction,
 } from "../components/skills/AddSkill";
 
+//! WORK TYPE
+import AddWorkType, {
+  action as addWorkType,
+} from "../components/work-type/AddWorkType";
+import EditWorkType, {
+  loader as editWorkTypeLoader,
+  action as editWorkTypeAction,
+} from "../components/work-type/EditWorkType";
+import {
+  loader as workTypeLoader,
+  action as workTypeAction,
+} from "../pages/work-type";
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -122,7 +135,20 @@ const AdminRoutes = {
     },
 
     //! WORK TYPE
-    { path: "work-type", element: <WorkType /> },
+    {
+      path: "work-type",
+      element: <WorkType />,
+      loader: workTypeLoader,
+      action: workTypeAction,
+    },
+    { path: "work-type/add", element: <AddWorkType />, action: addWorkType },
+    {
+      path: "work-type/edit/:code",
+      element: <EditWorkType />,
+      loader: editWorkTypeLoader,
+      action: editWorkTypeAction,
+    },
+
     { path: "work-salary", element: <Salary /> },
     { path: "work-exp", element: <Experience /> },
     { path: "admin", element: <AdminPage /> },
