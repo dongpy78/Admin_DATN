@@ -41,7 +41,7 @@ const SearchSalary = () => {
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <h5 className="form-title">Tìm kiếm khoảng lương</h5>
+        <h5 className="form-title">Tìm kiếm </h5>
         <div className="form-center">
           <FormRow
             type="search"

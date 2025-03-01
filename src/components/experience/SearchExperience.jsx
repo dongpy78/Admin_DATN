@@ -4,7 +4,7 @@ import FormRow from "../layout-dashboard/FormRow";
 import { Link } from "react-router-dom";
 import { useState } from "react";
 
-const SearchLevel = () => {
+const SearchExperience = () => {
   const submit = useSubmit();
   const [searchValue, setSearchValue] = useState("");
 
@@ -34,7 +34,7 @@ const SearchLevel = () => {
       formRef.current.reset(); // Reset form trong DOM
       const formData = new FormData(formRef.current);
       // console.log("Resetting form data:", Object.fromEntries(formData));
-      submit(formRef.current, { method: "post", action: "/admin/work-level" }); // Gửi form với search rỗng
+      submit(formRef.current, { method: "post", action: "/admin/work-exp" }); // Gửi form với search rỗng
     }
   };
 
@@ -56,7 +56,7 @@ const SearchLevel = () => {
           />
 
           <Link
-            to="/admin/work-level"
+            to="/admin/work-exp"
             className="btn form-btn"
             onClick={handleReset}
           >
@@ -69,4 +69,4 @@ const SearchLevel = () => {
   );
 };
 
-export default SearchLevel;
+export default SearchExperience;

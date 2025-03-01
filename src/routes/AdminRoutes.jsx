@@ -75,6 +75,19 @@ import {
   action as salaryAction,
 } from "../pages/salary";
 
+//! EXP TYPE
+import AddExperience, {
+  action as addExperienceType,
+} from "../components/experience/AddExperience";
+import EditExperience, {
+  loader as editExperienceTypeLoader,
+  action as editExperienceTypeAction,
+} from "../components/experience/EditExperience";
+import {
+  loader as experienceLoader,
+  action as experienceAction,
+} from "../pages/experience";
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -177,8 +190,25 @@ const AdminRoutes = {
       action: editSalaryTypeAction,
     },
 
-    { path: "work-salary", element: <Salary /> },
-    { path: "work-exp", element: <Experience /> },
+    //! SALARY TYPE
+    {
+      path: "work-exp",
+      element: <Experience />,
+      loader: experienceLoader,
+      action: experienceAction,
+    },
+    {
+      path: "work-exp/add",
+      element: <AddExperience />,
+      action: addExperienceType,
+    },
+    {
+      path: "work-exp/edit/:code",
+      element: <EditExperience />,
+      loader: editExperienceTypeLoader,
+      action: editExperienceTypeAction,
+    },
+
     { path: "admin", element: <AdminPage /> },
     { path: "profile", element: <Profile /> },
     { path: "*", element: <NotFound /> },

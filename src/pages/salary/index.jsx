@@ -141,7 +141,7 @@ const Salary = () => {
   const handlePageChange = (pageNumber) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", pageNumber);
-    navigate(`/admin/work-type?${searchParams.toString()}`);
+    navigate(`/admin/work-salary?${searchParams.toString()}`);
   };
 
   useEffect(() => {
