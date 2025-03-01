@@ -15,13 +15,13 @@ export const action = async ({ request }) => {
   try {
     const response = await axiosInstance.post("/create-new-allcode", {
       code: data.code,
-      type: "WORKTYPE", // Cố định cho Type Job
+      type: "SALARYTYPE", // Cố định cho Type Job
       value: data.value,
       image: data.image || "", // Để trống nếu không có
     });
 
     if (response.status === 200 || response.status === 201) {
-      showSuccessToast("Work type created successfully!");
+      showSuccessToast("Type salary created successfully!");
       return { success: true };
     } else {
       showErrorToast(`Unexpected status code: ${response.status}`);
@@ -34,18 +34,18 @@ export const action = async ({ request }) => {
   }
 };
 
-const AddWorkType = () => {
+const AddSlary = () => {
   const actionData = useActionData(); // Lấy dữ liệu trả về từ action
   const navigate = useNavigate();
 
   // Chuyển hướng sau khi tạo thành công
   if (actionData?.success) {
-    setTimeout(() => navigate("/admin/work-type"), 1000); // Chuyển về danh sách sau 1 giây
+    setTimeout(() => navigate("/admin/work-salary"), 1000); // Chuyển về danh sách sau 1 giây
   }
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <h4 className="form-title">thêm mới cấp bậc</h4>
+        <h4 className="form-title">thêm mới khoảng lương</h4>
         <div className="form-center">
           <FormRow
             type="text"
@@ -58,7 +58,7 @@ const AddWorkType = () => {
             type="text"
             name="type"
             labelText="Type"
-            defaultValue="WORKTYPE"
+            defaultValue="SALARYTYPE"
             placeholder="e.g., DATA"
             disabled
           />
@@ -77,4 +77,4 @@ const AddWorkType = () => {
   );
 };
 
-export default AddWorkType;
+export default AddSlary;

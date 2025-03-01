@@ -62,6 +62,19 @@ import {
   action as workTypeAction,
 } from "../pages/work-type";
 
+//! SALARY TYPE
+import AddSalary, {
+  action as addSalaryType,
+} from "../components/salary/AddSalary";
+import EditSalary, {
+  loader as editSalaryTypeLoader,
+  action as editSalaryTypeAction,
+} from "../components/salary/EditSalary";
+import {
+  loader as salaryLoader,
+  action as salaryAction,
+} from "../pages/salary";
+
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
   document.body.classList.toggle("dark-theme", isDarkTheme);
@@ -147,6 +160,21 @@ const AdminRoutes = {
       element: <EditWorkType />,
       loader: editWorkTypeLoader,
       action: editWorkTypeAction,
+    },
+
+    //! SALARY TYPE
+    {
+      path: "work-salary",
+      element: <Salary />,
+      loader: salaryLoader,
+      action: salaryAction,
+    },
+    { path: "work-salary/add", element: <AddSalary />, action: addSalaryType },
+    {
+      path: "work-salary/edit/:code",
+      element: <EditSalary />,
+      loader: editSalaryTypeLoader,
+      action: editSalaryTypeAction,
     },
 
     { path: "work-salary", element: <Salary /> },

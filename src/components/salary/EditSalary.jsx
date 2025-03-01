@@ -18,21 +18,21 @@ import { redirect } from "react-router-dom";
 export const loader = async ({ params }) => {
   try {
     const response = await axiosInstance.get(
-      `/list-allcodes?type=WORKTYPE&limit=10&offset=0`
+      `/list-allcodes?type=SALARYTYPE&limit=10&offset=0`
     );
     const typeJob = response.data.data.rows.find(
       (tj) => tj.code === params.code
     );
     if (!typeJob) {
-      showErrorToast("Type Job not found.");
-      return redirect("/admin/work-level");
+      showErrorToast("Type salary not found.");
+      return redirect("/admin/work-salary");
     }
     return typeJob;
   } catch (error) {
     showErrorToast(
       error?.response?.data?.message || "Failed to fetch type job."
     );
-    return redirect("/admin/work-level");
+    return redirect("/admin/work-salary");
   }
 };
 
@@ -41,7 +41,7 @@ export const action = async ({ request, params }) => {
   const formData = await request.formData();
   const data = {
     code: params.code, // Lấy code từ params vì trường bị disable
-    type: "WORKTYPE", // Cố định theo dữ liệu test
+    type: "SALARYTYPE", // Cố định theo dữ liệu test
     value: formData.get("value"),
     imgage: formData.get("image") || "", // Dùng "imgage" theo dữ liệu test
   };
@@ -53,16 +53,15 @@ export const action = async ({ request, params }) => {
 
     console.log("API response:", response.data);
 
-    showSuccessToast("Type job updated successfully!");
-    return redirect("/admin/work-type");
+    showSuccessToast("Type salary updated successfully!");
+    return redirect("/admin/work-salary");
   } catch (error) {
     console.error("Error updating type job:", error.response?.data || error);
-
     return { errors: { general: errorMessage } };
   }
 };
 
-const EditWorkType = () => {
+const EditSalary = () => {
   const typeJob = useLoaderData();
   const actionData = useActionData();
 
@@ -104,4 +103,4 @@ const EditWorkType = () => {
   );
 };
 
-export default EditWorkType;
+export default EditSalary;
