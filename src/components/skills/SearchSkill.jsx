@@ -7,12 +7,13 @@ import Wrapper from "../../assets/wrappers/DashboardFormPage";
 const SearchSkill = ({ categoryJobCodes }) => {
   const submit = useSubmit();
   const [searchValue, setSearchValue] = useState("");
-  const [categoryJobCode, setCategoryJobCode] = useState("Tất cả");
+  const [selectedCategoryJobCode, setSelectedCategoryJobCode] =
+    useState("Tất cả");
 
   const debounce = (onChange, field) => {
     let timeout;
     return (value) => {
-      const form = document.querySelector(".form"); // Lấy form từ DOM
+      const form = document.querySelector(".form");
       console.log(`Debounce triggered for ${field} with value:`, value);
       clearTimeout(timeout);
       timeout = setTimeout(() => {
@@ -31,24 +32,26 @@ const SearchSkill = ({ categoryJobCodes }) => {
   };
 
   const handleReset = () => {
-    setSearchValue(""); // Reset state về rỗng
-    if (formRef.current) {
-      formRef.current.reset(); // Reset form trong DOM
-      const formData = new FormData(formRef.current);
-      // console.log("Resetting form data:", Object.fromEntries(formData));
-      submit(formRef.current, { method: "post", action: "/admin/type-job" }); // Gửi form với search rỗng
+    setSearchValue("");
+    setSelectedCategoryJobCode("Tất cả");
+    const form = document.querySelector(".form");
+    if (form) {
+      form.reset();
+      const formData = new FormData(form);
+      console.log("Resetting form data:", Object.fromEntries(formData));
+      submit(form, { method: "post", action: "/admin/work-skill" });
     }
   };
 
   return (
     <Wrapper>
       <Form method="post" className="form">
-        <h5 className="form-title">Tìm kiếm </h5>
+        <h5 className="form-title">Tìm kiếm kỹ năng</h5>
         <div className="form-center">
           <FormRow
             type="search"
             name="search"
-            labelText="Search by Name"
+            labelText="Tìm theo tên"
             value={searchValue}
             onChange={(e) => {
               const newValue = e.target.value;
@@ -59,17 +62,20 @@ const SearchSkill = ({ categoryJobCodes }) => {
           />
           <FormRowSelect
             name="categoryJobCode"
-            labelText="Search by Job Code"
-            list={categoryJobCodes}
-            value={categoryJobCode}
+            labelText="Loại công việc"
+            list={categoryJobCodes.map((code) => ({
+              value: code,
+              label: code,
+            }))}
+            value={selectedCategoryJobCode}
             onChange={(e) => {
               const newValue = e.target.value;
-              setCategoryJobCode(newValue);
+              setSelectedCategoryJobCode(newValue);
               debounce(handleChange, "categoryJobCode")(newValue);
             }}
           />
           <Link
-            to="/admin/skills"
+            to="/admin/work-skill"
             className="btn form-btn"
             onClick={handleReset}
           >

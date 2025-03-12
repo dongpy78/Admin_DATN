@@ -16,11 +16,22 @@ export const loader = async ({ request }) => {
   const page = parseInt(params.get("page") || "1", 10);
   const limit = 5;
   const offset = (page - 1) * limit;
+  const search = params.get("search") || "";
+  const categoryJobCode = params.get("categoryJobCode") || "";
+
   try {
-    const response = await axiosInstance.get(
-      `/list-skills?limit=${limit}&offset=${offset}`
-    );
+    const searchQuery = search
+      ? `&search=${encodeURIComponent(search)}`
+      : "&search=";
+    const categoryJobCodeQuery =
+      categoryJobCode && categoryJobCode !== "Tất cả"
+        ? `&categoryJobCode=${encodeURIComponent(categoryJobCode)}`
+        : "&categoryJobCode=";
+    const url = `/list-skills?limit=${limit}&offset=${offset}${searchQuery}${categoryJobCodeQuery}`;
+    console.log("Loader URL:", url);
+    const response = await axiosInstance.get(url);
     console.log("Loader response:", response.data);
+
     if (response.status === 200 && response.data.data) {
       const numOfPages = Math.ceil(response.data.data.count / limit) || 1;
       const allSkillsResponse = await axiosInstance.get(
@@ -30,7 +41,7 @@ export const loader = async ({ request }) => {
         "Tất cả",
         ...new Set(
           allSkillsResponse.data.data.rows.map(
-            (skill) => skill.jobTypeSkillData.code
+            (skill) => skill.jobTypeSkillData?.code || "Không xác định"
           )
         ),
       ];
@@ -145,7 +156,7 @@ const Skills = () => {
   };
 
   const handleDelete = async (id) => {
-    setLoading(true); // Hiển thị loading khi xóa
+    setLoading(true);
     try {
       const response = await axiosInstance.delete(`/delete-skill?id=${id}`);
       if (response.status === 200) {
@@ -169,12 +180,17 @@ const Skills = () => {
   const handlePageChange = (pageNumber) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", pageNumber);
-    navigate(`/admin/work-skill?${searchParams.toString()}`);
+    // Duy trì các tham số search và categoryJobCode từ URL
+    const search = searchParams.get("search") || "";
+    const categoryJobCode = searchParams.get("categoryJobCode") || "";
+    if (search || (categoryJobCode && categoryJobCode !== "Tất cả")) {
+      navigate(`/admin/work-skill?${searchParams.toString()}`);
+    } else {
+      navigate(`/admin/work-skill?page=${pageNumber}`);
+    }
   };
 
   useEffect(() => {
-    // console.log("actionData:", actionData);
-    // console.log("loaderData:", loaderData);
     if (actionData && "skills" in actionData) {
       setSkills(actionData.skills || []);
       setTotalCount(actionData.totalCount || 0);
