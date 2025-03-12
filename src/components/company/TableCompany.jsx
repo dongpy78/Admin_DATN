@@ -1,5 +1,5 @@
 import React from "react";
-import { FaEye, FaLock, FaUnlock, FaCheckCircle } from "react-icons/fa"; // Thay FaUndo bằng FaCheckCircle
+import { FaEye, FaLock, FaUnlock, FaCheckCircle } from "react-icons/fa";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../libs/axiosInterceptor";
@@ -27,7 +27,6 @@ const TableCompany = ({
   // Hàm xử lý xem chi tiết
   const handleView = (id) => {
     console.log("Xem chi tiết công ty với ID:", id);
-    // Điều hướng hoặc gọi API chi tiết
   };
 
   // Hàm xử lý ban/unban

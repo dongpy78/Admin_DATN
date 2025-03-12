@@ -87,13 +87,18 @@ import {
   loader as experienceLoader,
   action as experienceAction,
 } from "../pages/experience";
-import Post from "../pages/post";
 
 //! COMPANY TYPE
 import Company, {
   loader as companyLoader,
   action as companyAction,
 } from "../pages/company";
+
+//! COMPANY TYPE
+import Post, {
+  loader as postLoader,
+  action as postAction,
+} from "../pages/post";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -228,6 +233,8 @@ const AdminRoutes = {
     {
       path: "post",
       element: <Post />,
+      loader: postLoader,
+      action: postAction,
     },
 
     { path: "admin", element: <AdminPage /> },

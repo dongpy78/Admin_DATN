@@ -180,6 +180,90 @@ const JobTableWrapper = styled.section`
     border-radius: 12px;
     display: inline-block;
   }
+
+  .status-active,
+  .status-rejected,
+  .status-pending,
+  .status-banned,
+  .status-default {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    display: inline-block;
+    text-transform: capitalize;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .status-active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: 1px solid #218838;
+  }
+
+  .status-rejected {
+    color: #ffffff;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: 1px solid #c82333;
+  }
+
+  .status-pending {
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff9800, #e65100);
+    border: 1px solid #e65100;
+  }
+
+  .status-banned {
+    color: #ffffff;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    border: 1px solid #5a6268;
+  }
+
+  .status-default {
+    color: #ffffff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: 1px solid #0056b3;
+  }
+
+  /* Hiệu ứng hover */
+  .status-active:hover,
+  .status-rejected:hover,
+  .status-pending:hover,
+  .status-banned:hover,
+  .status-default:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Hiệu ứng active */
+  .status-active:active,
+  .status-rejected:active,
+  .status-pending:active,
+  .status-banned:active,
+  .status-default:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .reject-btn {
+    background-color: #dc3545;
+    color: white;
+    width: 22px;
+    height: 22px;
+    /* padding: 2px 2px 2px 2px; */
+    border: none;
+    /* padding: 5px 5px; */
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .reject-btn:hover {
+    background-color: #c82333; /* Màu đỏ đậm khi hover */
+  }
 `;
 
 export default JobTableWrapper;
