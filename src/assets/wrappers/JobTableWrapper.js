@@ -126,11 +126,35 @@ const JobTableWrapper = styled.section`
     color: #a71d2a;
   }
 
+  .view-btn,
+  .ban-unban-btn,
+  .approve-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+
+  .view-btn {
+    color: #007bff; /* Màu xanh cho Xem chi tiết */
+  }
+  .view-btn:hover {
+    color: #0056b3;
+  }
+
   .ban-unban-btn {
-    color: #ff9800; /* Màu cam cho Ban/Unban */
+    color: #ff9800; /* Màu vàng cho Ban/Unban */
   }
   .ban-unban-btn:hover {
     color: #e65100;
+  }
+
+  .approve-btn {
+    color: #28a745; /* Màu xanh lá cho Kiểm duyệt */
+  }
+  .approve-btn:hover {
+    color: #218838;
   }
 
   .status-active {

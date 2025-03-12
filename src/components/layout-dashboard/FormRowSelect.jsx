@@ -1,9 +1,12 @@
+import React from "react";
+
 const FormRowSelect = ({
   name,
   labelText,
   list,
-  defaultValue = "",
+  value, // Thêm prop value để kiểm soát state
   onChange,
+  disabled, // Thêm prop disabled
 }) => {
   return (
     <div className="form-row">
@@ -14,18 +17,18 @@ const FormRowSelect = ({
         name={name}
         id={name}
         className="form-select"
-        defaultValue={defaultValue}
+        value={value} // Sử dụng value để kiểm soát state
         onChange={onChange}
+        disabled={disabled} // Hỗ trợ disabled
       >
-        {list.map((itemValue) => {
-          return (
-            <option key={itemValue} value={itemValue}>
-              {itemValue}
-            </option>
-          );
-        })}
+        {list.map((item, index) => (
+          <option key={index} value={item.value}>
+            {item.label}
+          </option>
+        ))}
       </select>
     </div>
   );
 };
+
 export default FormRowSelect;

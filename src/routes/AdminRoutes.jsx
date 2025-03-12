@@ -87,8 +87,13 @@ import {
   loader as experienceLoader,
   action as experienceAction,
 } from "../pages/experience";
-import Company from "../pages/company";
 import Post from "../pages/post";
+
+//! COMPANY TYPE
+import Company, {
+  loader as companyLoader,
+  action as companyAction,
+} from "../pages/company";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -215,6 +220,8 @@ const AdminRoutes = {
     {
       path: "company",
       element: <Company />,
+      loader: companyLoader,
+      action: companyAction,
     },
 
     //! POST
