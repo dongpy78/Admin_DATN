@@ -8,6 +8,8 @@ import { SiLevelsdotfyi } from "react-icons/si";
 import { FaBusinessTime } from "react-icons/fa6";
 import { GiMoneyStack } from "react-icons/gi";
 import { GiBrain } from "react-icons/gi";
+import { BsBuildingCheck } from "react-icons/bs";
+import { BsFillFileTextFill } from "react-icons/bs";
 
 const links = [
   {
@@ -49,6 +51,16 @@ const links = [
     text: "Experience",
     path: "work-exp",
     icon: <GiBrain />,
+  },
+  {
+    text: "Company",
+    path: "company",
+    icon: <BsBuildingCheck />,
+  },
+  {
+    text: "Post",
+    path: "post",
+    icon: <BsFillFileTextFill />,
   },
   {
     text: "profile",

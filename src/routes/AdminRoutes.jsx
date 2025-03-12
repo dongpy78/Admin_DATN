@@ -87,6 +87,8 @@ import {
   loader as experienceLoader,
   action as experienceAction,
 } from "../pages/experience";
+import Company from "../pages/company";
+import Post from "../pages/post";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -207,6 +209,18 @@ const AdminRoutes = {
       element: <EditExperience />,
       loader: editExperienceTypeLoader,
       action: editExperienceTypeAction,
+    },
+
+    //! COMPANY
+    {
+      path: "company",
+      element: <Company />,
+    },
+
+    //! POST
+    {
+      path: "post",
+      element: <Post />,
     },
 
     { path: "admin", element: <AdminPage /> },
