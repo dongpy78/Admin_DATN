@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   FaEye,
   FaLock,
@@ -13,6 +13,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../utils/toastNotifications";
+import { GlobalContext } from "../../contexts/GlobalProviders";
 
 const TablePost = ({
   typePost,
@@ -20,6 +21,47 @@ const TablePost = ({
   currentPage = 1,
   totalCount = 0,
 }) => {
+  const { openRejectModal } = useContext(GlobalContext);
+
+  // Hàm xử lý từ chối kiểm duyệt
+  const handleRejectCensor = async (id, currentCensor) => {
+    const isRejected = currentCensor === "Đã bị từ chối";
+
+    const confirmMessage = isRejected
+      ? "Bài đăng đã bị từ chối, bạn vẫn muốn tiếp tục?"
+      : "Bạn có chắc muốn từ chối kiểm duyệt bài đăng này?";
+
+    if (window.confirm(confirmMessage)) {
+      openRejectModal((reason) => {
+        // Xử lý lý do từ chối
+        try {
+          const apiUrl = "/posts/accept"; // Hoặc "/posts/reject" nếu có API riêng
+          const payload = {
+            id,
+            statusCode: "PS2", // Trạng thái "Đã bị từ chối"
+            userId: "13", // ID người dùng
+            note: reason, // Sử dụng lý do từ chối
+          };
+
+          axiosInstance.post(apiUrl, payload).then((response) => {
+            if (response.status === 200) {
+              showSuccessToast("Bài đăng đã bị từ chối thành công");
+              // Làm mới danh sách
+              axiosInstance
+                .get(`/posts/all-posts?limit=5&offset=${(currentPage - 1) * 5}`)
+                .then((refreshResponse) => {
+                  setTypePost(refreshResponse.data.data.rows || []);
+                });
+            }
+          });
+        } catch (error) {
+          console.error("Lỗi khi từ chối kiểm duyệt:", error);
+          showErrorToast("Có lỗi xảy ra khi từ chối kiểm duyệt bài đăng.");
+        }
+      });
+    }
+  };
+
   if (!typePost || typePost.length === 0) {
     return (
       <JobTableWrapper>
@@ -102,42 +144,6 @@ const TablePost = ({
       } catch (error) {
         console.error("Lỗi khi kiểm duyệt:", error);
         showErrorToast("Có lỗi xảy ra khi kiểm duyệt bài đăng.");
-      }
-    }
-  };
-
-  // Hàm xử lý từ chối kiểm duyệt
-  const handleRejectCensor = async (id, currentCensor) => {
-    const isPending = currentCensor === "Chờ kiểm duyệt";
-    const isRejected = currentCensor === "Đã bị từ chối";
-
-    const confirmMessage = isRejected
-      ? "Bài đăng đã bị từ chối, bạn vẫn muốn tiếp tục?"
-      : "Bạn có chắc muốn từ chối kiểm duyệt bài đăng này?";
-
-    if (window.confirm(confirmMessage)) {
-      try {
-        const apiUrl = "/posts/accept"; // Hoặc "/posts/reject" nếu có API riêng
-        const payload = {
-          id,
-          statusCode: "PS2", // Trạng thái "Đã bị từ chối"
-          userId: "13", // ID người dùng
-          note: "Rejected", // Ghi chú
-        };
-
-        const response = await axiosInstance.post(apiUrl, payload);
-
-        if (response.status === 200) {
-          showSuccessToast("Bài đăng đã bị từ chối thành công");
-          // Làm mới danh sách
-          const refreshResponse = await axiosInstance.get(
-            `/posts/all-posts?limit=5&offset=${(currentPage - 1) * 5}`
-          );
-          setTypePost(refreshResponse.data.data.rows || []);
-        }
-      } catch (error) {
-        console.error("Lỗi khi từ chối kiểm duyệt:", error);
-        showErrorToast("Có lỗi xảy ra khi từ chối kiểm duyệt bài đăng.");
       }
     }
   };
