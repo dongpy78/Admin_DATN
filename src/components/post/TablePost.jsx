@@ -233,6 +233,7 @@ const TablePost = ({
                     <FaCheckCircle />
                   </button>
                   <button
+                    style={{ position: "relative", top: "-2px" }}
                     className="reject-btn"
                     onClick={() =>
                       handleRejectCensor(post.id, post.statusPostData?.value)

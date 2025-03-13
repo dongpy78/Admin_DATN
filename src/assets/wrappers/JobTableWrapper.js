@@ -157,6 +157,23 @@ const JobTableWrapper = styled.section`
     color: #218838;
   }
 
+  .unapprove-btn {
+    background-color: #ffc107; /* Màu vàng */
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 4px 1px 0px 1px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .unapprove-btn:hover {
+    background-color: #e0a800; /* Màu vàng đậm khi hover */
+  }
+
   .status-active {
     color: #ffffff;
     background-color: #28a745;
@@ -252,10 +269,9 @@ const JobTableWrapper = styled.section`
     color: white;
     width: 22px;
     height: 22px;
-    /* padding: 2px 2px 2px 2px; */
     border: none;
-    /* padding: 5px 5px; */
-    border-radius: 4px;
+    padding: 1.3px 0px 1px 0px;
+    border-radius: 50%;
     cursor: pointer;
     font-size: 1.2rem;
     transition: background-color 0.3s ease;

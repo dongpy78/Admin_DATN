@@ -1,5 +1,11 @@
-import React from "react";
-import { FaEye, FaLock, FaUnlock, FaCheckCircle } from "react-icons/fa";
+import React, { useContext } from "react";
+import {
+  FaEye,
+  FaLock,
+  FaUnlock,
+  FaCheckCircle,
+  FaTimesCircle,
+} from "react-icons/fa";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../libs/axiosInterceptor";
@@ -7,6 +13,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../utils/toastNotifications";
+import { GlobalContext } from "../../contexts/GlobalProviders"; // Import context
 
 const TableCompany = ({
   typeCompany,
@@ -14,6 +21,8 @@ const TableCompany = ({
   currentPage = 1,
   totalCount = 0,
 }) => {
+  const { openRejectModal } = useContext(GlobalContext); // Lấy hàm mở modal từ context
+
   if (!typeCompany || typeCompany.length === 0) {
     return (
       <JobTableWrapper>
@@ -93,6 +102,47 @@ const TableCompany = ({
         console.error("Lỗi khi kiểm duyệt:", error);
         showErrorToast("Có lỗi xảy ra khi kiểm duyệt công ty.");
       }
+    }
+  };
+
+  // Hàm xử lý chưa kiểm duyệt
+  const handleUnapproveCensor = async (id, currentCensor) => {
+    const isUnapproved = currentCensor === "Chưa kiểm duyệt";
+
+    const confirmMessage = isUnapproved
+      ? "Công ty đã ở trạng thái chưa kiểm duyệt, bạn vẫn muốn tiếp tục?"
+      : "Bạn có chắc muốn chuyển công ty này sang trạng thái chưa kiểm duyệt?";
+
+    if (window.confirm(confirmMessage)) {
+      openRejectModal((reason) => {
+        // Xử lý lý do chưa kiểm duyệt
+        try {
+          const apiUrl = "/accept-company"; // Hoặc API riêng cho chưa kiểm duyệt
+          const payload = {
+            companyId: id,
+            statusCode: "CS2", // Trạng thái "Chưa kiểm duyệt"
+            note: reason, // Sử dụng lý do từ modal
+            userId: "13", // ID người dùng
+          };
+
+          axiosInstance.post(apiUrl, payload).then((response) => {
+            if (response.status === 200) {
+              showSuccessToast(
+                "Công ty đã được chuyển sang trạng thái chưa kiểm duyệt thành công"
+              );
+              // Làm mới danh sách
+              axiosInstance
+                .get(`/admin/companies?limit=5&offset=${(currentPage - 1) * 5}`)
+                .then((refreshResponse) => {
+                  setTypeCompany(refreshResponse.data.data.rows || []);
+                });
+            }
+          });
+        } catch (error) {
+          console.error("Lỗi khi chưa kiểm duyệt:", error);
+          showErrorToast("Có lỗi xảy ra khi chưa kiểm duyệt công ty.");
+        }
+      });
     }
   };
 
@@ -191,6 +241,23 @@ const TableCompany = ({
                     }
                   >
                     <FaCheckCircle />
+                  </button>
+                  <button
+                    style={{ position: "relative", top: "-2px" }}
+                    className="unapprove-btn"
+                    onClick={() =>
+                      handleUnapproveCensor(
+                        company.id,
+                        company.censorData?.value
+                      )
+                    }
+                    title={
+                      company.censorData?.value === "Chưa kiểm duyệt"
+                        ? "Chưa kiểm duyệt"
+                        : "Chưa kiểm duyệt công ty"
+                    }
+                  >
+                    <FaTimesCircle />
                   </button>
                 </td>
               </tr>
