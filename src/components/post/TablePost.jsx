@@ -176,7 +176,13 @@ const TablePost = ({
                 <td>{`${post.userPostData?.firstName || ""} ${
                   post.userPostData?.lastName || ""
                 }`}</td>
-                <td>{new Date(post.timeEnd).toLocaleDateString()}</td>
+                <td>
+                  {new Date(post.timeEnd).toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </td>
                 <td>
                   <span
                     className={
@@ -197,7 +203,7 @@ const TablePost = ({
                 <td className="actions">
                   <Link
                     title="Xem chi tiết"
-                    to={`/posts/detail/${post.id}`}
+                    to={`/admin/post/detail/${post.id}`}
                     className="view-btn"
                   >
                     <FaEye />

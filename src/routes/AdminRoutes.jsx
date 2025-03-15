@@ -100,6 +100,7 @@ import Post, {
   action as postAction,
 } from "../pages/post";
 import DetailCompany from "../components/company/DetailCompany";
+import DetailPost from "../components/post/DetailPost";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -241,6 +242,11 @@ const AdminRoutes = {
       element: <Post />,
       loader: postLoader,
       action: postAction,
+    },
+
+    {
+      path: "post/detail/:id", // Thêm route cho chi tiết công ty
+      element: <DetailPost />,
     },
 
     { path: "admin", element: <AdminPage /> },
