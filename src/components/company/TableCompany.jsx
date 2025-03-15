@@ -200,11 +200,17 @@ const TableCompany = ({
                     {company.censorData?.value || "Chưa xác định"}
                   </span>
                 </td>
-                <td>{new Date(company.createdAt).toLocaleDateString()}</td>
+                <td>
+                  {new Date(company.createdAt).toLocaleDateString("vi-VN", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                  })}
+                </td>
                 <td className="actions">
                   <Link
                     title="Xem chi tiết"
-                    to={`/admin/companies/detail/${company.id}`}
+                    to={`/admin/company/detail/${company.id}`}
                     className="view-btn"
                   >
                     <FaEye />

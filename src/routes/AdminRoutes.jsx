@@ -99,6 +99,7 @@ import Post, {
   loader as postLoader,
   action as postAction,
 } from "../pages/post";
+import DetailCompany from "../components/company/DetailCompany";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -227,6 +228,11 @@ const AdminRoutes = {
       element: <Company />,
       loader: companyLoader,
       action: companyAction,
+    },
+
+    {
+      path: "company/detail/:id", // Thêm route cho chi tiết công ty
+      element: <DetailCompany />,
     },
 
     //! POST

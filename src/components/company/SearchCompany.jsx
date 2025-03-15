@@ -100,7 +100,7 @@ const SearchCompany = ({ typeCompany, onFilterChange }) => {
               setSearchValue(e.target.value);
               debounce(handleChange)(e);
             }}
-            placeholder="Tìm theo tên hoặc mã số thuế..."
+            placeholder="Tìm theo tên công ty"
           />
           <FormRowSelect
             name="censorStatus"
