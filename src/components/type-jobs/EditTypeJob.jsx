@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import {
   Form,
@@ -40,19 +41,16 @@ export const loader = async ({ params }) => {
 export const action = async ({ request, params }) => {
   const formData = await request.formData();
   const data = {
-    code: params.code, // Lấy code từ params vì trường bị disable
-    type: "JOBTYPE", // Cố định theo dữ liệu test
+    code: params.code,
+    type: "JOBTYPE",
     value: formData.get("value"),
-    imgage: formData.get("image") || "", // Dùng "imgage" theo dữ liệu test
+    image: formData.get("image") || "", // URL ảnh từ input ẩn
   };
 
   try {
     console.log("Sending data to update-allcode:", data);
-
     const response = await axiosInstance.patch("/update-allcode", data);
-
     console.log("API response:", response.data);
-
     showSuccessToast("Type job updated successfully!");
     return redirect("/admin/type-job");
   } catch (error) {
@@ -67,6 +65,66 @@ export const action = async ({ request, params }) => {
 const EditTypeJob = () => {
   const typeJob = useLoaderData();
   const actionData = useActionData();
+  const navigate = useNavigate();
+
+  // State quản lý ảnh
+  const [imagePreview, setImagePreview] = useState(typeJob.image || "");
+  const [imageUrl, setImageUrl] = useState(typeJob.image || "");
+
+  // Hàm upload ảnh lên server
+  const uploadImage = async (file) => {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await axiosInstance.post(
+        "/media/upload/single",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      console.log("Upload response:", response.data);
+
+      if (response.data && response.data.url) {
+        return response.data.url;
+      } else {
+        throw new Error("Không thể upload ảnh");
+      }
+    } catch (error) {
+      console.error("Lỗi khi upload ảnh:", error);
+      throw error;
+    }
+  };
+
+  // Xử lý khi người dùng chọn ảnh
+  const handleOnChangeImage = async (event) => {
+    const files = event.target.files;
+    if (!files || files.length === 0) return;
+
+    const file = files[0];
+
+    const maxSize = 512 * 1024; // 0.5MB
+    if (file.size > maxSize) {
+      showErrorToast("Ảnh đại diện vượt quá kích thước 0.5MB!");
+      return;
+    }
+
+    try {
+      const objectUrl = URL.createObjectURL(file);
+      setImagePreview(objectUrl);
+
+      const uploadedImageUrl = await uploadImage(file);
+      setImageUrl(uploadedImageUrl);
+      showSuccessToast("Ảnh đã được upload thành công!");
+    } catch (error) {
+      console.error("Lỗi khi upload ảnh:", error);
+      showErrorToast("Không thể upload ảnh");
+    }
+  };
 
   return (
     <Wrapper>
@@ -87,7 +145,6 @@ const EditTypeJob = () => {
             defaultValue={typeJob.type}
             disabled
           />
-
           <FormRow
             type="text"
             name="value"
@@ -98,18 +155,51 @@ const EditTypeJob = () => {
           {actionData?.errors?.value && (
             <span className="form-error">{actionData.errors.value}</span>
           )}
+
+          {/* Hiển thị hình ảnh và đường dẫn */}
           <div className="form-row">
-            <label htmlFor="image" className="form-label">
-              Select an image file (max 0.5 MB):
+            <label htmlFor="file" className="form-label">
+              Ảnh đại diện
             </label>
+            {imagePreview ? (
+              <img
+                src={imagePreview}
+                alt="Ảnh đại diện"
+                className="company-image"
+                style={{
+                  width: "100px",
+                  height: "100px",
+                  objectFit: "cover",
+                }}
+              />
+            ) : (
+              <p>Không có ảnh đại diện</p>
+            )}
             <input
               type="file"
-              id="avatar"
-              name="avatar"
+              id="file"
+              name="file" // Đổi name để tránh xung đột với input ẩn
               className="form-input"
+              onChange={handleOnChangeImage}
               accept="image/*"
             />
+            {/* Hiển thị đường dẫn URL của ảnh */}
+            {imageUrl && (
+              <div style={{ marginTop: "10px" }}>
+                <label className="form-label">Đường dẫn ảnh:</label>
+                <input
+                  type="text"
+                  value={imageUrl}
+                  readOnly
+                  className="form-input"
+                  style={{ backgroundColor: "#f0f0f0" }}
+                />
+              </div>
+            )}
+            {/* Hidden input để gửi URL ảnh thực tế lên server */}
+            <input type="hidden" name="image" value={imageUrl} />
           </div>
+
           <SubmitBtn formBtn />
         </div>
       </Form>

@@ -35,6 +35,7 @@ const JobTableWrapper = styled.section`
     white-space: nowrap; /* Ngăn nội dung xuống dòng */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị "..." nếu nội dung quá dài */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
   }
 
   th {
@@ -98,7 +99,7 @@ const JobTableWrapper = styled.section`
   }
 
   .actions {
-    display: flex;
+    /* display: flex; */
     gap: 8px; /* Khoảng cách giữa các nút */
     align-items: center;
   }

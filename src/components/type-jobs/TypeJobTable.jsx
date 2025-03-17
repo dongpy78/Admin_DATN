@@ -17,58 +17,74 @@ const TypeJobTable = ({
       </JobTableWrapper>
     );
   }
+
   const itemsPerPage = 5;
+
   return (
-    <>
-      <JobTableWrapper>
-        <h5 className="title-list-job">Danh sách Loại Công Việc</h5>
-        <h5 className="title-amount">Tổng số lượng công việc: {totalCount}</h5>
-        <div className="jobtype-container">
-          <table>
-            <thead>
-              <tr>
-                <th>STT</th>
-                <th>Tên công việc</th>
-                <th>Mã code</th>
-                <th>Loại công việc</th>
-                <th>Hình ảnh</th>
-                <th>Actions</th>
+    <JobTableWrapper>
+      <h5 className="title-list-job">Danh sách Loại Công Việc</h5>
+      <h5 className="title-amount">Tổng số lượng công việc: {totalCount}</h5>
+      <div className="jobtype-container">
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên công việc</th>
+              <th>Mã code</th>
+              <th>Loại công việc</th>
+              <th>Hình ảnh</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {typeJobs.map((typeJob, index) => (
+              <tr key={typeJob.code}>
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                <td>{typeJob.value}</td>
+                <td>{typeJob.code}</td>
+                <td>{typeJob.type}</td>
+                <td>
+                  {typeJob.image ? (
+                    <img
+                      src={typeJob.image}
+                      alt={typeJob.value}
+                      style={{
+                        width: "50px",
+                        height: "50px",
+                        objectFit: "cover",
+                        borderRadius: "4px",
+                      }}
+                    />
+                  ) : (
+                    "Không có ảnh"
+                  )}
+                </td>
+                <td className="actions">
+                  <Link
+                    title="Edit type job"
+                    to={`/admin/type-job/edit/${typeJob.code}`}
+                    className="edit-btn"
+                  >
+                    <FaEdit />
+                  </Link>
+                  <button
+                    style={{ marginLeft: "4px" }}
+                    title="Delete Type Job"
+                    onClick={() => onDelete(typeJob.code)}
+                    className="delete-btn"
+                  >
+                    <MdDelete />
+                  </button>
+                </td>
               </tr>
-            </thead>
-            <tbody>
-              {typeJobs.map((typeJob, index) => (
-                <tr key={typeJob.code}>
-                  <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
-                  <td>{typeJob.value}</td>
-                  <td>{typeJob.code}</td>
-                  <td>{typeJob.type}</td>
-                  <td>{typeJob.image || "N/A"}</td>
-                  <td className="actions">
-                    <Link
-                      title="Edit type job"
-                      to={`/admin/type-job/edit/${typeJob.code}`}
-                      className="edit-btn"
-                    >
-                      <FaEdit />
-                    </Link>
-                    <button
-                      title="Delete Type Job"
-                      onClick={() => onDelete(typeJob.code)}
-                      className="delete-btn"
-                    >
-                      <MdDelete />
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        <Link to="/admin/type-job/add" className="btn add-user-btn">
-          Add Type Job
-        </Link>
-      </JobTableWrapper>
-    </>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <Link to="/admin/type-job/add" className="btn add-user-btn">
+        Add Type Job
+      </Link>
+    </JobTableWrapper>
   );
 };
 
