@@ -267,9 +267,6 @@ const DetailProfile = () => {
           <button type="submit" className="btn form-btn">
             Lưu thay đổi
           </button>
-          <Link to="/dashboard" className="btn form-btn">
-            Quay lại
-          </Link>
         </div>
       </Form>
     </Wrapper>

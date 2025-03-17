@@ -98,8 +98,13 @@ const JobTableWrapper = styled.section`
     width: 120px; /* Date of Birth */
   }
 
-  .actions {
+  .actions-custom {
     /* display: flex; */
+    gap: 8px; /* Khoảng cách giữa các nút */
+    align-items: center;
+  }
+  .actions {
+    display: flex;
     gap: 8px; /* Khoảng cách giữa các nút */
     align-items: center;
   }

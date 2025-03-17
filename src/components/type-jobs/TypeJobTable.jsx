@@ -59,7 +59,7 @@ const TypeJobTable = ({
                     "Không có ảnh"
                   )}
                 </td>
-                <td className="actions">
+                <td className="actions-custom">
                   <Link
                     title="Edit type job"
                     to={`/admin/type-job/edit/${typeJob.code}`}
