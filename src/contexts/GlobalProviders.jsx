@@ -1,5 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import RejectReasonModal from "../components/layout-dashboard/RejectReasonModal"; // Import modal
+import {
+  deleteFromLocalStorage,
+  getFromLocalStorage,
+} from "../utils/localStorage";
+import { keyLocalStorage } from "../constants/keyConstant";
+import { showErrorToast, showSuccessToast } from "../utils/toastNotifications";
 
 export const GlobalContext = React.createContext();
 
@@ -9,11 +15,30 @@ const GlobalProvider = ({ children }) => {
     const savedUser = localStorage.getItem("user");
     return savedUser ? JSON.parse(savedUser) : { name: "" };
   });
+
+  const [admin, setAdmin] = useState(null); // Thông tin ứng viên
+
   const [showSidebar, setShowSidebar] = useState(false);
   const [isDarkTheme, setIsDarkTheme] = useState(false);
 
   const [isRejectModalOpen, setIsRejectModalOpen] = useState(false); // Trạng thái modal
   const [rejectCallback, setRejectCallback] = useState(null); // Callback để xử lý lý do từ chối
+
+  useEffect(() => {
+    const token = getFromLocalStorage(keyLocalStorage.accessToken);
+    const storedUser = getFromLocalStorage("user");
+
+    if (token && storedUser) {
+      if (storedUser.roleCode === "Admin") {
+        setAdmin({
+          name: `${storedUser.firstName} ${storedUser.lastName}`.trim(),
+          avatar: storedUser.image || null,
+        });
+      }
+      // Cập nhật user nếu cần
+      setUser(storedUser);
+    }
+  }, []);
 
   const toggleDarkTheme = () => {
     const newDarkTheme = !isDarkTheme;
@@ -26,10 +51,36 @@ const GlobalProvider = ({ children }) => {
     setShowSidebar(!showSidebar);
   };
 
-  const logoutUser = () => {
-    console.log("logoutUser");
-    setUser({ name: "" }); // Reset user về giá trị mặc định
-    localStorage.removeItem("user"); // Xóa user khỏi localStorage
+  const logoutUser = async () => {
+    try {
+      // Thêm kiểm tra token trước khi gọi API
+      const token = getFromLocalStorage(keyLocalStorage.accessToken);
+      if (!token) {
+        throw new Error("No authentication token found");
+      }
+
+      // Thêm headers Authorization nếu cần
+      await axiosInstance.post("/auth/logout");
+
+      // Xóa dữ liệu local storage
+      deleteFromLocalStorage(keyLocalStorage.accessToken);
+      deleteFromLocalStorage("user");
+      localStorage.removeItem("userImage"); // Thêm dòng này nếu có lưu ảnh
+
+      // Reset state
+      setAdmin(null);
+      setUser(null);
+
+      // Hiển thị thông báo và chuyển hướng
+      showSuccessToast("Logout success!");
+      window.location.href = "/";
+    } catch (error) {
+      console.error("Logout error:", error);
+
+      // Dù lỗi vẫn xóa token và chuyển hướng
+      deleteFromLocalStorage(keyLocalStorage.accessToken);
+      window.location.href = "/";
+    }
   };
 
   // Hàm mở modal từ chối
@@ -62,6 +113,8 @@ const GlobalProvider = ({ children }) => {
         localStorage.removeItem("user");
       }
     },
+    admin,
+    setAdmin,
     showSidebar,
     setShowSidebar,
     isDarkTheme,

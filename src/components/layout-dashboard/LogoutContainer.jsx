@@ -1,11 +1,14 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import React, { useContext } from "react";
 import { GlobalContext } from "../../contexts/GlobalProviders";
 import Wrapper from "../../assets/wrappers/LogoutContainer";
 import { FaUserCircle, FaCaretDown } from "react-icons/fa";
 import { toast } from "react-toastify";
 import axiosInstance from "../../libs/axiosInterceptor";
-import { deleteFromLocalStorage } from "../../utils/localStorage";
+import {
+  deleteFromLocalStorage,
+  getFromLocalStorage,
+} from "../../utils/localStorage";
 import { keyLocalStorage } from "../../constants/keyConstant";
 import { useNavigate } from "react-router-dom";
 import {
@@ -14,9 +17,21 @@ import {
 } from "../../utils/toastNotifications";
 
 const LogoutContainer = () => {
-  const { user, logoutUser } = useContext(GlobalContext);
+  const { admin, setAdmin, logoutUser } = useContext(GlobalContext);
   const [showLogout, setShowLogout] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Lấy thông tin từ localStorage khi component mount lần đầu
+    const userStorage = getFromLocalStorage("user"); // Lấy từ "user" thay vì "company"
+    if (userStorage && !admin) {
+      setAdmin({
+        ...userStorage,
+        name: `${userStorage.firstName} ${userStorage.lastName}`.trim(),
+        avatar: userStorage.image,
+      });
+    }
+  }, [setAdmin, admin]);
 
   const handleLogout = async () => {
     try {
@@ -51,12 +66,26 @@ const LogoutContainer = () => {
         className="btn logout-btn"
         onClick={() => setShowLogout(!showLogout)}
       >
-        <FaUserCircle />
-        {user?.name}
+        {admin?.avatar ? (
+          <img
+            src={admin.avatar}
+            alt="Avatar"
+            className="avatar"
+            style={{
+              width: "24px",
+              height: "24px",
+              borderRadius: "50%",
+              marginRight: "8px",
+            }}
+          />
+        ) : (
+          <FaUserCircle />
+        )}
+        {admin?.name}
         <FaCaretDown />
       </button>
       <div className={showLogout ? "dropdown show-dropdown" : "dropdown"}>
-        <button type="button" className="dropdown-btn" onClick={handleLogout}>
+        <button type="button" className="dropdown-btn" onClick={logoutUser}>
           logout
         </button>
       </div>

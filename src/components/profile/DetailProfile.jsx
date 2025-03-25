@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import { getFromLocalStorage } from "../../utils/localStorage";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import { Form, Link } from "react-router-dom";
@@ -11,12 +11,15 @@ import {
 import { useState, useEffect } from "react";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import FormRowSelectProfile from "../layout-dashboard/FormRowSelectProfile";
+import { GlobalContext } from "../../contexts/GlobalProviders";
 
 const DetailProfile = () => {
   const userStorage = getFromLocalStorage("user");
-  const [user, setUser] = useState(null); // Đặt giá trị ban đầu là null để kiểm tra dễ hơn
+  const [setUser] = useState(null); // Đặt giá trị ban đầu là null để kiểm tra dễ hơn
   const [loading, setLoading] = useState(true);
   const [genderOptions, setGenderOptions] = useState([]); // State để lưu danh sách giới tính
+  const { admin, setAdmin } = useContext(GlobalContext);
+  const [user, setLocalUser] = useState(null);
 
   // Lấy danh sách giới tính từ API
   useEffect(() => {
@@ -58,7 +61,8 @@ const DetailProfile = () => {
             userData.imageReview = savedImageUrl;
           }
 
-          setUser(userData);
+          setLocalUser(userData);
+
           console.log("UserData", userData);
         }
       } catch (error) {
@@ -75,10 +79,20 @@ const DetailProfile = () => {
   // Xử lý thay đổi thông tin
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setUser((prevUser) => ({
-      ...prevUser,
-      [name]: value,
-    }));
+    if (["firstName", "lastName", "address", "phonenumber"].includes(name)) {
+      setLocalUser((prevUser) => ({
+        ...prevUser,
+        userAccountData: {
+          ...prevUser.userAccountData,
+          [name]: value,
+        },
+      }));
+    } else {
+      setLocalUser((prevUser) => ({
+        ...prevUser,
+        [name]: value,
+      }));
+    }
   };
 
   const uploadImage = async (file) => {
@@ -112,35 +126,35 @@ const DetailProfile = () => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
-
-    // Kiểm tra kích thước file (tối đa 0.5MB)
-    const maxSize = 512 * 1024; // 0.5MB
+    const maxSize = 512 * 1024;
     if (file.size > maxSize) {
       showErrorToast("Ảnh đại diện vượt quá kích thước 0.5MB!");
       return;
     }
 
     try {
-      // Tạo URL tạm thời để hiển thị preview
       const objectUrl = URL.createObjectURL(file);
-
-      // Cập nhật state với URL tạm thời để hiển thị preview
-      setUser((prevUser) => ({
+      setLocalUser((prevUser) => ({
         ...prevUser,
-        imageReview: objectUrl, // URL tạm thời để hiển thị preview
+        imageReview: objectUrl,
       }));
 
-      // Upload ảnh lên server và lấy URL thực tế
       const imageUrl = await uploadImage(file);
-
-      // Cập nhật state với URL ảnh thực tế từ server
-      setUser((prevUser) => ({
+      setLocalUser((prevUser) => ({
         ...prevUser,
-        image: imageUrl, // URL ảnh từ server
-        imageReview: imageUrl, // Cập nhật lại ảnh xem trước bằng URL thực tế
+        image: imageUrl,
+        imageReview: imageUrl,
       }));
 
-      // Lưu URL ảnh vào localStorage
+      // Kiểm tra tồn tại của user và userAccountData trước khi sử dụng
+      if (user && user.userAccountData) {
+        setAdmin((prevAdmin) => ({
+          ...prevAdmin,
+          avatar: imageUrl,
+          name: `${user.userAccountData.firstName} ${user.userAccountData.lastName}`.trim(),
+        }));
+      }
+
       localStorage.setItem("userImage", imageUrl);
     } catch (error) {
       console.error("Lỗi khi upload ảnh:", error);
@@ -151,15 +165,40 @@ const DetailProfile = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const formData = new FormData();
-      for (const key in user) {
-        formData.append(key, user[key]);
-      }
+      const userData = {
+        id: userStorage.id,
+        firstName: user.userAccountData.firstName || "",
+        lastName: user.userAccountData.lastName || "",
+        address: user.userAccountData.address || "",
+        phonenumber: user.userAccountData.phonenumber || "",
+        email: user.email || "",
+        genderCode: user.genderCode || "",
+        dob: user.dob || "",
+        image: user.image || "",
+      };
 
-      // Gửi dữ liệu cập nhật lên server
-      const response = await axiosInstance.patch("/auth/update-user", formData);
+      const response = await axiosInstance.patch(
+        "/auth/update-user",
+        userData,
+        {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
 
-      console.log("User update", response);
+      // Cập nhật admin trong GlobalContext
+      setAdmin({
+        name: `${userData.firstName} ${userData.lastName}`.trim(),
+        avatar: userData.image,
+      });
+
+      // Cập nhật user trong localStorage
+      const updatedUserStorage = {
+        ...userStorage,
+        ...userData,
+      };
+      localStorage.setItem("user", JSON.stringify(updatedUserStorage));
 
       showSuccessToast(
         response.data.message || "Cập nhật thông tin thành công"
