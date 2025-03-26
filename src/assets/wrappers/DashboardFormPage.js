@@ -28,6 +28,22 @@ const Wrapper = styled.section`
     row-gap: 1rem;
   }
 
+  .form-input {
+    background-color: #fff;
+    border: 1px solid #ccc;
+    padding: 8px;
+    color: #333;
+    width: 100%;
+    border-radius: 4px;
+  }
+
+  .form-input:disabled {
+    background-color: #f0f0f0; /* Màu xám nhạt để phân biệt */
+    color: #888; /* Chữ nhạt hơn */
+    border-color: #ddd; /* Viền nhạt hơn */
+    cursor: not-allowed; /* Con trỏ chuột kiểu "không cho phép" */
+  }
+
   .form-btn {
     align-self: end;
     margin-top: 1rem;

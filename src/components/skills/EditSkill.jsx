@@ -86,7 +86,7 @@ const EditSkill = () => {
   }
 
   if (actionData?.success) {
-    setTimeout(() => navigate("/admin/skills"), 1000);
+    setTimeout(() => navigate("/admin/work-skill"), 1000);
   }
 
   return (

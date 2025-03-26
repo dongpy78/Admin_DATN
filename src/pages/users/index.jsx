@@ -2,10 +2,14 @@ import React, { useEffect, useState } from "react";
 import UserTable from "../../components/users/UserTable";
 import UserTableWrapper from "../../assets/wrappers/UserTableWrapper";
 import axiosInstance from "../../libs/axiosInterceptor";
+import SearchUser from "../../components/users/SearchUser";
+import PageTypeJob from "../../components/type-jobs/PageTypeJob";
+
 import {
   showSuccessToast,
   showErrorToast,
 } from "../../utils/toastNotifications";
+import SkillTableWrapper from "../../assets/wrappers/SkillTableWrapper";
 
 const Users = () => {
   const [users, setUsers] = useState([]);
@@ -18,6 +22,7 @@ const Users = () => {
       );
       if (response.status === 200) {
         setUsers(response.data.data.rows);
+        console.log("User retrieved", response.data.data.rows);
         // showSuccessToast("Fetched users successfully!");
       } else {
         showErrorToast(`Unexpected status code: ${response.status}`);
@@ -33,16 +38,16 @@ const Users = () => {
   };
 
   const handleBanUnban = async (id) => {
-    const user = users.find((u) => u.id === id);
+    const user = users.find((u) => u.userId === id); // Sửa: Dùng userId thay vì id
     const isBanning = user.statusAccountData.value === "Đã kích hoạt";
     const endpoint = isBanning ? "/auth/ban-account" : "/auth/unban-account";
 
     try {
-      const response = await axiosInstance.post(endpoint, { userId: id });
+      const response = await axiosInstance.post(endpoint, { userId: id }); // id đã là userId
       if (response.status === 200) {
         setUsers((prevUsers) =>
           prevUsers.map((u) =>
-            u.id === id
+            u.userId === id // Sửa: Dùng userId thay vì id
               ? {
                   ...u,
                   statusAccountData: {
@@ -77,14 +82,16 @@ const Users = () => {
   }, []);
 
   return (
-    <UserTableWrapper>
-      <h2 className="title-manage-user">Danh sách người dùng</h2>
+    <SkillTableWrapper>
+      <SearchUser />
       {loading ? (
         <p>Loading users...</p>
       ) : (
-        <UserTable users={users} onBanUnban={handleBanUnban} />
+        <>
+          <UserTable users={users} onBanUnban={handleBanUnban} />
+        </>
       )}
-    </UserTableWrapper>
+    </SkillTableWrapper>
   );
 };
 

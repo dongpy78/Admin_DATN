@@ -3,6 +3,7 @@ import { FaEdit } from "react-icons/fa";
 import { FaLock, FaUnlock } from "react-icons/fa";
 import UserTableWrapper from "../../assets/wrappers/UserTableWrapper";
 import { Link } from "react-router-dom";
+import SkillTableWrapper from "../../assets/wrappers/SkillTableWrapper";
 
 const UserTable = ({ users, onBanUnban }) => {
   console.log("Users data:", users);
@@ -15,9 +16,9 @@ const UserTable = ({ users, onBanUnban }) => {
     );
   }
   return (
-    <UserTableWrapper>
+    <SkillTableWrapper>
       <h5 className="title-amount">Số lượng người dùng: {users.length}</h5>
-      <div className="users-container">
+      <div className="users-container" style={{ marginTop: "1rem" }}>
         <table>
           <thead>
             <tr>
@@ -63,22 +64,15 @@ const UserTable = ({ users, onBanUnban }) => {
                 <td className="actions">
                   <Link
                     title="Edit user"
-                    to={`/admin/users/edit/${user.id}`}
+                    to={`/admin/list-user/edit/${user.userId}`}
                     className="edit-btn"
                   >
                     <FaEdit />
                   </Link>
-                  {/* <button
-                    title="Delete User"
-                    className="delete-btn"
-                    onClick={() => onDelete(user.id)}
-                  >
-                    <MdDelete />
-                  </button> */}
 
                   <button
                     className="ban-unban-btn"
-                    onClick={() => onBanUnban(user.id)}
+                    onClick={() => onBanUnban(user.userId)}
                     title={
                       user.statusAccountData.value === "Đã kích hoạt"
                         ? "Ban user"
@@ -100,7 +94,7 @@ const UserTable = ({ users, onBanUnban }) => {
       <Link to="/admin/users/add" className="btn add-user-btn">
         Add User
       </Link>
-    </UserTableWrapper>
+    </SkillTableWrapper>
   );
 };
 

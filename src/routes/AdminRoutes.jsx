@@ -49,6 +49,12 @@ import {
   action as addSkillAction,
 } from "../components/skills/AddSkill";
 
+//! USERS
+import {
+  loader as editUserLoader,
+  action as editUserAction,
+} from "../components/users/EditUser";
+
 //! WORK TYPE
 import AddWorkType, {
   action as addWorkType,
@@ -118,7 +124,12 @@ const AdminRoutes = {
     { index: true, path: "", element: <DashboardLayout /> },
     { path: "list-user", element: <User /> },
     { path: "list-user/add", element: <AddUser /> },
-    { path: "list-user/edit", element: <EditUser /> },
+    {
+      path: "list-user/edit/:id",
+      element: <EditUser />,
+      loader: editUserLoader,
+      action: editUserAction,
+    },
 
     //! TYPE-JOB
     {
