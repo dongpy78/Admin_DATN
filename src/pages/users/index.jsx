@@ -18,7 +18,7 @@ const Users = () => {
       );
       if (response.status === 200) {
         setUsers(response.data.data.rows);
-        showSuccessToast("Fetched users successfully!");
+        // showSuccessToast("Fetched users successfully!");
       } else {
         showErrorToast(`Unexpected status code: ${response.status}`);
       }

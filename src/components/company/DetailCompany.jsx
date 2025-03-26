@@ -93,12 +93,13 @@ const DetailCompany = () => {
         {/* Hiển thị hình ảnh */}
         <div className="form-center" style={{ marginTop: "1rem" }}>
           <div className="form-row">
-            <label className="form-label">Ảnh đại diện</label>
+            <label className="form-label">Ảnh bìa</label>
             {company.coverimage ? (
               <img
                 src={company.coverimage}
-                alt="Ảnh đại diện"
+                alt="Ảnh bìa"
                 className="company-image"
+                style={{ width: "300px", height: "200px" }}
                 onError={(e) =>
                   (e.target.src =
                     "https://via.placeholder.com/150?text=Không+tìm+thấy+ảnh")
@@ -109,11 +110,12 @@ const DetailCompany = () => {
             )}
           </div>
           <div className="form-row" style={{ marginTop: "1rem" }}>
-            <label className="form-label">Ảnh bìa</label>
+            <label className="form-label">Ảnh đại diện</label>
             {company.thumbnail ? (
               <img
                 src={company.thumbnail}
-                alt="Ảnh bìa"
+                alt="Ảnh đại diện"
+                style={{ width: "100px", height: "100px" }}
                 className="company-image"
                 onError={(e) =>
                   (e.target.src =

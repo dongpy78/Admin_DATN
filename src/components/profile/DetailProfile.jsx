@@ -12,6 +12,7 @@ import { useState, useEffect } from "react";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import FormRowSelectProfile from "../layout-dashboard/FormRowSelectProfile";
 import { GlobalContext } from "../../contexts/GlobalProviders";
+import FormRowSelectV1 from "../layout-dashboard/FormRowSelect-V1";
 
 const DetailProfile = () => {
   const userStorage = getFromLocalStorage("user");
@@ -29,8 +30,8 @@ const DetailProfile = () => {
           "/list-allcodes?type=GENDER&limit=10&offset=0"
         );
         if (response.status === 200) {
-          console.log("GenderCode: ", response);
           setGenderOptions(response.data.data.rows); // Lưu danh sách giới tính vào state
+          console.log("GenderCode: ", response);
         }
       } catch (error) {
         console.error("Lỗi khi lấy danh sách giới tính:", error);
@@ -61,7 +62,20 @@ const DetailProfile = () => {
             userData.imageReview = savedImageUrl;
           }
 
-          setLocalUser(userData);
+          // Chuẩn hóa cấu trúc dữ liệu
+          const normalizedData = {
+            ...userData,
+            genderCode: userData.userAccountData?.genderCode || "", // Lấy từ userAccountData
+            // Các trường khác nếu cần
+          };
+
+          setLocalUser(normalizedData);
+
+          // DEBUG: Kiểm tra giá trị genderCode sau khi set user
+          console.log("Current user gender (after fetch):", {
+            genderCode: userData.genderCode,
+            genderOptions: genderOptions,
+          });
 
           console.log("UserData", userData);
         }
@@ -79,6 +93,17 @@ const DetailProfile = () => {
   // Xử lý thay đổi thông tin
   const handleInputChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "genderCode") {
+      setLocalUser((prev) => ({
+        ...prev,
+        userAccountData: {
+          ...prev.userAccountData,
+          genderCode: value,
+        },
+      }));
+    }
+
     if (["firstName", "lastName", "address", "phonenumber"].includes(name)) {
       setLocalUser((prevUser) => ({
         ...prevUser,
@@ -172,7 +197,7 @@ const DetailProfile = () => {
         address: user.userAccountData.address || "",
         phonenumber: user.userAccountData.phonenumber || "",
         email: user.email || "",
-        genderCode: user.genderCode || "",
+        genderCode: user.userAccountData.genderCode,
         dob: user.dob || "",
         image: user.image || "",
       };
@@ -262,11 +287,17 @@ const DetailProfile = () => {
             defaultValue={user.userAccountData.phonenumber}
             onChange={handleInputChange}
           />
-          <FormRowSelectProfile
+          <FormRowSelectV1
             name="genderCode"
             labelText="Giới tính"
-            list={genderOptions} // Danh sách giới tính từ API
-            // Giá trị được chọn (ví dụ: "M" hoặc "FE")
+            list={[
+              { value: "", label: "-- Chọn giới tính --" },
+              ...genderOptions.map((item) => ({
+                value: item.code,
+                label: item.value,
+              })),
+            ]}
+            defaultValue={user.userAccountData?.genderCode || ""} // Truy cập đúng đường dẫn
             onChange={handleInputChange}
           />
           <FormRow

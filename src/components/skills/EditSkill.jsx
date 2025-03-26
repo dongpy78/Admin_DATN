@@ -14,6 +14,7 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../utils/toastNotifications";
+import FormRowSelectV1 from "../layout-dashboard/FormRowSelect-V1";
 
 // Loader để lấy dữ liệu kỹ năng cần chỉnh sửa và danh sách mã code JobType
 export const loader = async ({ params }) => {
@@ -33,17 +34,18 @@ export const loader = async ({ params }) => {
       const skill = skillResponse.data.data.rows.find(
         (s) => s.id === parseInt(params.id)
       );
-      const jobTypeCodes = jobTypeResponse.data.data.rows.map(
-        (item) => item.code
-      );
+      const jobTypeOptions = jobTypeResponse.data.data.rows.map((item) => ({
+        value: item.code,
+        label: item.code,
+      }));
       if (!skill) throw new Error("Skill not found");
-      return { skill, jobTypeCodes };
+      return { skill, jobTypeOptions };
     }
     throw new Error("Failed to fetch data");
   } catch (error) {
     console.error("Error fetching skill or job type codes:", error);
     showErrorToast(error.response?.data?.message || "Failed to fetch data.");
-    return { skill: null, jobTypeCodes: [] };
+    return { skill: null, jobTypeOptions: [] };
   }
 };
 
@@ -75,7 +77,7 @@ export const action = async ({ request, params }) => {
 };
 
 const EditSkill = () => {
-  const { skill, jobTypeCodes } = useLoaderData();
+  const { skill, jobTypeOptions } = useLoaderData();
   const actionData = useActionData();
   const navigate = useNavigate();
 
@@ -105,10 +107,10 @@ const EditSkill = () => {
             labelText="Skill Name"
             defaultValue={skill.name}
           />
-          <FormRowSelect
+          <FormRowSelectV1
             name="categoryJobCode"
             labelText="Category Job Code"
-            list={jobTypeCodes}
+            list={jobTypeOptions}
             defaultValue={skill.categoryJobCode}
           />
           <SubmitBtn formBtn />
