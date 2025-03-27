@@ -1,15 +1,20 @@
 import styled from "styled-components";
 
-const UserTableWrapper = styled.div`
-  .users-container {
+const JobTableWrapper = styled.section`
+  border-radius: var(--border-radius);
+  width: 100%;
+  background: var(--background-secondary-color);
+  /* padding: 3rem 2rem 4rem; */
+  padding: 0 2rem 2rem 2rem;
+
+  .jobtype-container {
     overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
     max-width: 100%;
     margin: 1rem 0 1rem 0;
   }
 
-  .title-manage-user {
-    font-size: 24px;
-    font-weight: 500;
+  .title-list-job {
+    font-size: 23px;
     margin-bottom: 1rem;
   }
 
@@ -30,12 +35,13 @@ const UserTableWrapper = styled.div`
     white-space: nowrap; /* Ngăn nội dung xuống dòng */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị "..." nếu nội dung quá dài */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
   }
 
   th {
-    background-color: #0b7285; /* Màu nền cho header */
-    font-weight: bold;
+    background-color: var(--primary-500); /* Màu nền cho header */
     color: #fff;
+    font-weight: normal;
   }
 
   td {
@@ -45,27 +51,27 @@ const UserTableWrapper = styled.div`
   }
 
   /* Thanh cuộn ngang */
-  .users-container::-webkit-scrollbar {
+  .jobtype-container::-webkit-scrollbar {
     height: 3px;
   }
 
-  .users-container::-webkit-scrollbar-track {
+  .jobtype-container::-webkit-scrollbar-track {
     background: var(--grey-100);
     border-radius: 6px;
     margin: 0 5px;
   }
 
-  .users-container::-webkit-scrollbar-thumb {
+  .jobtype-container::-webkit-scrollbar-thumb {
     background: var(--primary-500);
     border-radius: 6px;
     border: 2px solid var(--grey-100);
   }
 
-  .users-container::-webkit-scrollbar-thumb:hover {
+  .jobtype-container::-webkit-scrollbar-thumb:hover {
     background: var(--primary-700);
   }
 
-  .users-container {
+  .jobtype-container {
     scrollbar-width: thin;
     scrollbar-color: var(--primary-500) var(--grey-100);
   }
@@ -77,7 +83,7 @@ const UserTableWrapper = styled.div`
   }
   th:nth-child(2),
   td:nth-child(2) {
-    min-width: 150px; /* Name */
+    min-width: 50px; /* Name */
   }
   th:nth-child(3),
   td:nth-child(3) {
@@ -91,19 +97,12 @@ const UserTableWrapper = styled.div`
   td:nth-child(5) {
     width: 120px; /* Date of Birth */
   }
-  th:nth-child(6),
-  td:nth-child(6) {
-    width: 80px; /* Gender */
-  }
-  th:nth-child(7),
-  td:nth-child(7) {
-    width: 120px; /* Status */
-  }
-  th:nth-child(8),
-  td:nth-child(8) {
-    width: 150px; /* Actions */
-  }
 
+  .actions-custom {
+    /* display: flex; */
+    gap: 8px; /* Khoảng cách giữa các nút */
+    align-items: center;
+  }
   .actions {
     display: flex;
     gap: 8px; /* Khoảng cách giữa các nút */
@@ -133,11 +132,52 @@ const UserTableWrapper = styled.div`
     color: #a71d2a;
   }
 
+  .view-btn,
+  .ban-unban-btn,
+  .approve-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: color 0.3s ease;
+  }
+
+  .view-btn {
+    color: #007bff; /* Màu xanh cho Xem chi tiết */
+  }
+  .view-btn:hover {
+    color: #0056b3;
+  }
+
   .ban-unban-btn {
-    color: #ff9800; /* Màu cam cho Ban/Unban */
+    color: #ff9800; /* Màu vàng cho Ban/Unban */
   }
   .ban-unban-btn:hover {
     color: #e65100;
+  }
+
+  .approve-btn {
+    color: #28a745; /* Màu xanh lá cho Kiểm duyệt */
+  }
+  .approve-btn:hover {
+    color: #218838;
+  }
+
+  .unapprove-btn {
+    background-color: #ffc107; /* Màu vàng */
+    color: white;
+    border: none;
+    width: 24px;
+    height: 24px;
+    padding: 4px 1px 0px 1px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .unapprove-btn:hover {
+    background-color: #e0a800; /* Màu vàng đậm khi hover */
   }
 
   .status-active {
@@ -163,6 +203,89 @@ const UserTableWrapper = styled.div`
     border-radius: 12px;
     display: inline-block;
   }
+
+  .status-active,
+  .status-rejected,
+  .status-pending,
+  .status-banned,
+  .status-default {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-size: 14px;
+    font-weight: 500;
+    text-align: center;
+    display: inline-block;
+    text-transform: capitalize;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+  }
+
+  .status-active {
+    color: #ffffff;
+    background: linear-gradient(135deg, #28a745, #218838);
+    border: 1px solid #218838;
+  }
+
+  .status-rejected {
+    color: #ffffff;
+    background: linear-gradient(135deg, #dc3545, #c82333);
+    border: 1px solid #c82333;
+  }
+
+  .status-pending {
+    color: #ffffff;
+    background: linear-gradient(135deg, #ff9800, #e65100);
+    border: 1px solid #e65100;
+  }
+
+  .status-banned {
+    color: #ffffff;
+    background: linear-gradient(135deg, #6c757d, #5a6268);
+    border: 1px solid #5a6268;
+  }
+
+  .status-default {
+    color: #ffffff;
+    background: linear-gradient(135deg, #007bff, #0056b3);
+    border: 1px solid #0056b3;
+  }
+
+  /* Hiệu ứng hover */
+  .status-active:hover,
+  .status-rejected:hover,
+  .status-pending:hover,
+  .status-banned:hover,
+  .status-default:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  /* Hiệu ứng active */
+  .status-active:active,
+  .status-rejected:active,
+  .status-pending:active,
+  .status-banned:active,
+  .status-default:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .reject-btn {
+    background-color: #dc3545;
+    color: white;
+    width: 22px;
+    height: 22px;
+    border: none;
+    padding: 1.3px 0px 1px 0px;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 1.2rem;
+    transition: background-color 0.3s ease;
+  }
+
+  .reject-btn:hover {
+    background-color: #c82333; /* Màu đỏ đậm khi hover */
+  }
 `;
 
-export default UserTableWrapper;
+export default JobTableWrapper;

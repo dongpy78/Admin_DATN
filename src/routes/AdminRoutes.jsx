@@ -54,6 +54,7 @@ import {
   loader as editUserLoader,
   action as editUserAction,
 } from "../components/users/EditUser";
+import { loader as userLoader, action as userAction } from "../pages/users";
 
 //! WORK TYPE
 import AddWorkType, {
@@ -122,7 +123,12 @@ const AdminRoutes = {
   children: [
     //! USERS
     { index: true, path: "", element: <DashboardLayout /> },
-    { path: "list-user", element: <User /> },
+    {
+      path: "list-user",
+      element: <User />,
+      loader: userLoader,
+      action: userAction,
+    },
     { path: "list-user/add", element: <AddUser /> },
     {
       path: "list-user/edit/:id",

@@ -1,11 +1,9 @@
 import React from "react";
-import { FaEdit } from "react-icons/fa";
-import { FaLock, FaUnlock } from "react-icons/fa";
+import { FaEdit, FaLock, FaUnlock } from "react-icons/fa";
 import UserTableWrapper from "../../assets/wrappers/UserTableWrapper";
 import { Link } from "react-router-dom";
-import SkillTableWrapper from "../../assets/wrappers/SkillTableWrapper";
 
-const UserTable = ({ users, onBanUnban }) => {
+const UserTable = ({ users, onBanUnban, currentPage = 1, totalCount = 0 }) => {
   console.log("Users data:", users);
 
   if (!users || users.length === 0) {
@@ -15,13 +13,17 @@ const UserTable = ({ users, onBanUnban }) => {
       </UserTableWrapper>
     );
   }
+
+  const itemsPerPage = 5;
+
   return (
-    <SkillTableWrapper>
-      <h5 className="title-amount">Số lượng người dùng: {users.length}</h5>
-      <div className="users-container" style={{ marginTop: "1rem" }}>
+    <UserTableWrapper>
+      <h5 className="title-amount">Số lượng người dùng: {totalCount}</h5>
+      <div className="jobtype-container">
         <table>
           <thead>
             <tr>
+              <th>STT</th>
               <th>ID</th>
               <th>Name</th>
               <th>Email</th>
@@ -34,52 +36,55 @@ const UserTable = ({ users, onBanUnban }) => {
             </tr>
           </thead>
           <tbody>
-            {users.map((user) => (
-              <tr key={user.id}>
-                <td>{user.id}</td>
-                <td>{`${user.userAccountData.firstName} ${user.userAccountData.lastName}`}</td>
-                <td>{user.email}</td>
-                <td>{user.userAccountData.phonenumber}</td>
-                <td>{user.roleData.value}</td>
-
+            {users.map((user, index) => (
+              <tr key={user.userId || user.id}>
+                {" "}
+                {/* Dùng userId hoặc id làm key */}
+                <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
+                <td>{user.userId || user.id}</td>
+                <td>{`${user.userAccountData?.firstName || "N/A"} ${
+                  user.userAccountData?.lastName || "N/A"
+                }`}</td>
+                <td>{user.email || "N/A"}</td>
+                <td>{user.userAccountData?.phonenumber || "N/A"}</td>
+                <td>{user.roleData?.value || "N/A"}</td>
                 <td>
-                  {user.userAccountData.dob
+                  {user.userAccountData?.dob
                     ? new Date(user.userAccountData.dob).toLocaleDateString()
                     : "N/A"}
                 </td>
-                <td>{user.userAccountData.genderData.value}</td>
+                <td>{user.userAccountData?.genderData?.value || "N/A"}</td>
                 <td>
                   <span
                     className={
-                      user.statusAccountData.value === "Đã kích hoạt"
+                      user.statusAccountData?.value === "Đã kích hoạt"
                         ? "status-active"
-                        : user.statusAccountData.value === "Chưa kích hoạt"
+                        : user.statusAccountData?.value === "Chưa kích hoạt"
                         ? "status-inactive"
-                        : "status-default" // Thêm class mặc định nếu cần
+                        : "status-default"
                     }
                   >
-                    {user.statusAccountData.value}
+                    {user.statusAccountData?.value || "N/A"}
                   </span>
                 </td>
                 <td className="actions">
                   <Link
                     title="Edit user"
-                    to={`/admin/list-user/edit/${user.userId}`}
+                    to={`/admin/list-user/edit/${user.userId || user.id}`}
                     className="edit-btn"
                   >
                     <FaEdit />
                   </Link>
-
                   <button
                     className="ban-unban-btn"
-                    onClick={() => onBanUnban(user.userId)}
+                    onClick={() => onBanUnban(user.userId || user.id)}
                     title={
-                      user.statusAccountData.value === "Đã kích hoạt"
+                      user.statusAccountData?.value === "Đã kích hoạt"
                         ? "Ban user"
                         : "Unban user"
                     }
                   >
-                    {user.statusAccountData.value === "Đã kích hoạt" ? (
+                    {user.statusAccountData?.value === "Đã kích hoạt" ? (
                       <FaLock />
                     ) : (
                       <FaUnlock />
@@ -94,7 +99,7 @@ const UserTable = ({ users, onBanUnban }) => {
       <Link to="/admin/users/add" className="btn add-user-btn">
         Add User
       </Link>
-    </SkillTableWrapper>
+    </UserTableWrapper>
   );
 };
 
