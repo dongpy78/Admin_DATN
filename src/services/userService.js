@@ -6,4 +6,14 @@ const getAllUsers = (data) => {
   );
 };
 
-export { getAllUsers };
+const getAllPackage = (data) => {
+  return axiosInstance.get(
+    `/get-all-packages?limit=${data.limit}&offset=${data.offset}&search=${data.search}`
+  );
+};
+
+const setActiveTypePackage = (data) => {
+  return axiosInstance.put(`set-active-package-post`, data);
+};
+
+export { getAllUsers, getAllPackage, setActiveTypePackage };

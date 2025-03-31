@@ -108,6 +108,7 @@ import Post, {
 } from "../pages/post";
 import DetailCompany from "../components/company/DetailCompany";
 import DetailPost from "../components/post/DetailPost";
+import PackagePost from "../pages/package-post";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -259,6 +260,12 @@ const AdminRoutes = {
       element: <Post />,
       loader: postLoader,
       action: postAction,
+    },
+
+    //! PACKAGES POST
+    {
+      path: "package-post",
+      element: <PackagePost />,
     },
 
     {

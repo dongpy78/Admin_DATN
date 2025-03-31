@@ -10,6 +10,7 @@ import { GiMoneyStack } from "react-icons/gi";
 import { GiBrain } from "react-icons/gi";
 import { BsBuildingCheck } from "react-icons/bs";
 import { BsFillFileTextFill } from "react-icons/bs";
+import { GoPackage } from "react-icons/go";
 
 const links = [
   {
@@ -61,6 +62,11 @@ const links = [
     text: "Post",
     path: "post",
     icon: <BsFillFileTextFill />,
+  },
+  {
+    text: "Package Post",
+    path: "package-post",
+    icon: <GoPackage />,
   },
   {
     text: "profile",
