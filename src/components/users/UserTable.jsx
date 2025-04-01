@@ -38,7 +38,6 @@ const UserTable = ({ users, onBanUnban, currentPage = 1, totalCount = 0 }) => {
           <tbody>
             {users.map((user, index) => (
               <tr key={user.userId || user.id}>
-                {" "}
                 {/* Dùng userId hoặc id làm key */}
                 <td>{(currentPage - 1) * itemsPerPage + index + 1}</td>
                 <td>{user.userId || user.id}</td>

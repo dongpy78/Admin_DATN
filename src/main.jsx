@@ -2,6 +2,7 @@
 import { createRoot } from "react-dom/client";
 import { RouterProvider } from "react-router-dom";
 import router from "./routes";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import "./index.css";
 // import customFetch from "./utils/customFetch";
 // import App from "./App.jsx";
