@@ -13,6 +13,83 @@ const JobTableWrapper = styled.section`
     margin: 1rem 0 1rem 0;
   }
 
+  .action-buttons {
+    display: flex;
+    gap: 10px;
+  }
+
+  .action-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #4b49ac;
+    font-size: 1.2rem;
+    padding: 5px;
+    transition: all 0.3s ease;
+  }
+
+  .action-btn:hover {
+    transform: scale(1.1);
+    color: #3a38a0;
+  }
+
+  .edit-btn:hover {
+    color: #2e7d32; /* Màu xanh lá */
+  }
+
+  .pause-btn:hover {
+    color: #d32f2f; /* Màu đỏ */
+  }
+
+  .play-btn:hover {
+    color: #2e7d32; /* Màu xanh lá */
+  }
+
+  /* Badge chung */
+  .badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: baseline;
+    transition: all 0.3s ease;
+  }
+
+  /* Màu cho gói bình thường */
+  .badge-normal {
+    background-color: #e0e0e0; /* Màu xám nhạt */
+    color: #424242;
+  }
+
+  /* Màu cho gói nổi bật */
+  .badge-featured {
+    background-color: #fff8e1; /* Màu vàng nhạt */
+    color: #ff8f00;
+    font-weight: 600;
+  }
+
+  /* Màu cho trạng thái dừng kinh doanh */
+  .badge-inactive {
+    background-color: #ffebee; /* Màu đỏ nhạt */
+    color: #c62828;
+  }
+
+  /* Màu cho trạng thái đang kinh doanh */
+  .badge-active {
+    background-color: #e8f5e9; /* Màu xanh lá nhạt */
+    color: #2e7d32;
+    font-weight: 600;
+  }
+
+  /* Hiệu ứng hover (tùy chọn) */
+  .badge:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
   .title-list-job {
     font-size: 23px;
     margin-bottom: 1rem;
@@ -83,7 +160,7 @@ const JobTableWrapper = styled.section`
   }
   th:nth-child(2),
   td:nth-child(2) {
-    min-width: 100px; /* Name */
+    width: 100px; /* Name */
   }
   th:nth-child(3),
   td:nth-child(3) {
@@ -91,7 +168,7 @@ const JobTableWrapper = styled.section`
   }
   th:nth-child(4),
   td:nth-child(4) {
-    width: 100px; /* Role */
+    width: 120px; /* Role */
   }
   th:nth-child(5),
   td:nth-child(5) {

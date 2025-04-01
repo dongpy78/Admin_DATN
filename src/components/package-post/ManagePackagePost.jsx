@@ -15,11 +15,12 @@ import { Input } from "antd";
 import Wrapper from "../../assets/wrappers/DashboardFormPage";
 import ManagePackagePostWrapper from "../../assets/wrappers/ManagePackagePostWrapper";
 import PageTypeJob from "../type-jobs/PageTypeJob";
+import { FaEdit, FaPauseCircle, FaPlayCircle } from "react-icons/fa";
 
 const ManagePackagePost = () => {
   const [dataPackagePost, setDataPackagePost] = useState([]);
   const [count, setCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(1); // Đổi tên từ numberPage để phù hợp với PageTypeJob
+  const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -27,19 +28,32 @@ const ManagePackagePost = () => {
       let fetchData = async () => {
         let arrData = await getAllPackage({
           limit: PAGINATION.pagerow,
-          offset: (currentPage - 1) * PAGINATION.pagerow, // Tính offset dựa trên currentPage
+          offset: (currentPage - 1) * PAGINATION.pagerow,
           search: CommonUtils.removeSpace(search),
         });
+        console.log("API response:", arrData);
         if (arrData) {
           setDataPackagePost(arrData.data.data || arrData.data);
-          setCount(arrData.count);
+          setCount(arrData.data.total || 0);
         }
       };
       fetchData();
     } catch (error) {
       console.log(error);
     }
-  }, [search, currentPage]); // Thêm currentPage vào dependencies
+  }, [search, currentPage]);
+
+  const numOfPages = Math.ceil(count / PAGINATION.pagerow);
+
+  // Thêm log sau khi numOfPages đã được khai báo
+  console.log(
+    "count:",
+    count,
+    "numOfPages:",
+    numOfPages,
+    "currentPage:",
+    currentPage
+  );
 
   const hanndleSetActivePackage = async (event, id, isActive) => {
     event.preventDefault();
@@ -47,8 +61,9 @@ const ManagePackagePost = () => {
       id: id,
       isActive: isActive,
     });
-    if (res && res.errCode === 0) {
-      showSuccessToast(res.errMessage);
+    if (res) {
+      console.log("Hello", res);
+      showSuccessToast(res.data.errMessage);
       let arrData = await getAllPackage({
         limit: PAGINATION.pagerow,
         offset: (currentPage - 1) * PAGINATION.pagerow,
@@ -56,7 +71,7 @@ const ManagePackagePost = () => {
       });
       if (arrData) {
         setDataPackagePost(arrData.data.data || arrData.data);
-        setCount(arrData.count);
+        setCount(arrData.data.total);
       }
     } else {
       showErrorToast(res?.errMessage || "Có lỗi xảy ra");
@@ -69,10 +84,8 @@ const ManagePackagePost = () => {
 
   const handleSearch = (value) => {
     setSearch(value);
-    setCurrentPage(1); // Reset về trang đầu khi tìm kiếm
+    setCurrentPage(1);
   };
-
-  const numOfPages = Math.ceil(count / PAGINATION.pagerow);
 
   return (
     <>
@@ -117,42 +130,58 @@ const ManagePackagePost = () => {
                       <td>{item.value}</td>
                       <td>{item.price} USD</td>
                       <td>
-                        {item.isHot == 0 ? "Gói bình thường" : "Gói nổi bật"}
-                      </td>
-                      <td>
-                        {item.isActive == 0
-                          ? "Dừng kinh doanh"
-                          : "Đang kinh doanh"}
-                      </td>
-                      <td>
-                        <Link
-                          style={{ color: "#4B49AC" }}
-                          to={`/admin/edit-package-post/${item.id}/`}
+                        <span
+                          className={`badge ${
+                            item.isHot == 0 ? "badge-normal" : "badge-featured"
+                          }`}
                         >
-                          Sửa
-                        </Link>
-                        &nbsp; &nbsp;
-                        {item.isActive == 1 ? (
-                          <a
-                            style={{ color: "#4B49AC" }}
-                            href="#"
-                            onClick={(event) =>
-                              hanndleSetActivePackage(event, item.id, 0)
-                            }
+                          {item.isHot == 0 ? "Gói bình thường" : "Gói nổi bật"}
+                        </span>
+                      </td>
+                      <td>
+                        <span
+                          className={`badge ${
+                            item.isActive == 0
+                              ? "badge-inactive"
+                              : "badge-active"
+                          }`}
+                        >
+                          {item.isActive == 0
+                            ? "Dừng kinh doanh"
+                            : "Đang kinh doanh"}
+                        </span>
+                      </td>
+                      <td>
+                        <div className="action-buttons">
+                          <Link
+                            to={`/admin/package-post/edit/${item.id}/`}
+                            className="action-btn edit-btn"
+                            title="Sửa"
                           >
-                            Dừng kinh doanh
-                          </a>
-                        ) : (
-                          <a
-                            style={{ color: "#4B49AC" }}
-                            href="#"
-                            onClick={(event) =>
-                              hanndleSetActivePackage(event, item.id, 1)
-                            }
-                          >
-                            Mở kinh doanh
-                          </a>
-                        )}
+                            <FaEdit />
+                          </Link>
+                          {item.isActive == 1 ? (
+                            <button
+                              className="action-btn pause-btn"
+                              onClick={(event) =>
+                                hanndleSetActivePackage(event, item.id, 0)
+                              }
+                              title="Dừng kinh doanh"
+                            >
+                              <FaPauseCircle />
+                            </button>
+                          ) : (
+                            <button
+                              className="action-btn play-btn"
+                              onClick={(event) =>
+                                hanndleSetActivePackage(event, item.id, 1)
+                              }
+                              title="Mở kinh doanh"
+                            >
+                              <FaPlayCircle />
+                            </button>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   );
@@ -167,6 +196,10 @@ const ManagePackagePost = () => {
             </tbody>
           </table>
         </div>
+
+        <Link to="/admin/package-post/add" className="btn add-user-btn">
+          Add Package Post
+        </Link>
 
         {numOfPages > 1 && (
           <PageTypeJob

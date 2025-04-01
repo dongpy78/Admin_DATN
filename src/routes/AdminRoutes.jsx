@@ -109,6 +109,7 @@ import Post, {
 import DetailCompany from "../components/company/DetailCompany";
 import DetailPost from "../components/post/DetailPost";
 import PackagePost from "../pages/package-post";
+import AddPackagePost from "../components/package-post/AddPackagePost";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -262,15 +263,23 @@ const AdminRoutes = {
       action: postAction,
     },
 
+    {
+      path: "post/detail/:id", // Thêm route cho chi tiết công ty
+      element: <DetailPost />,
+    },
+
     //! PACKAGES POST
     {
       path: "package-post",
       element: <PackagePost />,
     },
-
     {
-      path: "post/detail/:id", // Thêm route cho chi tiết công ty
-      element: <DetailPost />,
+      path: "package-post/add",
+      element: <AddPackagePost />,
+    },
+    {
+      path: "package-post/edit/:id",
+      element: <AddPackagePost />,
     },
 
     { path: "admin", element: <AdminPage /> },

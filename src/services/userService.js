@@ -16,4 +16,23 @@ const setActiveTypePackage = (data) => {
   return axiosInstance.put(`set-active-package-post`, data);
 };
 
-export { getAllUsers, getAllPackage, setActiveTypePackage };
+const getPackageById = (id) => {
+  return axiosInstance.get(`/get-package-by-id?id=${id}`);
+};
+
+const createPackagePost = (data) => {
+  return axiosInstance.post(`/create-package-post`, data);
+};
+
+const updatePackagePost = (data) => {
+  return axiosInstance.put(`/update-package-post`, data);
+};
+
+export {
+  getAllUsers,
+  getAllPackage,
+  setActiveTypePackage,
+  getPackageById,
+  createPackagePost,
+  updatePackagePost,
+};
