@@ -61,9 +61,26 @@ const AddSkill = () => {
   const actionData = useActionData();
   const navigate = useNavigate();
 
+  // Chuyển đổi jobTypeCodes thành định dạng phù hợp với FormRowSelect
+  const jobTypeOptions = jobTypeCodes.map((code) => ({
+    value: code,
+    label: code, // Nếu không có label cụ thể, dùng code làm label
+  }));
+
+  // State để quản lý giá trị của select
+  const [selectedCategory, setSelectedCategory] = useState(
+    jobTypeOptions[0]?.value || "DEV" // Giá trị mặc định
+  );
+
+  // Điều hướng sau khi thêm thành công
   if (actionData?.success) {
-    setTimeout(() => navigate("/admin/skills"), 1000);
+    setTimeout(() => navigate("/admin/work-skill"), 1000);
   }
+
+  // Hàm xử lý khi thay đổi giá trị select
+  const handleCategoryChange = (e) => {
+    setSelectedCategory(e.target.value);
+  };
 
   return (
     <DashboardFormPage>
@@ -79,8 +96,9 @@ const AddSkill = () => {
           <FormRowSelect
             name="categoryJobCode"
             labelText="Category Job Code"
-            list={jobTypeCodes}
-            defaultValue={jobTypeCodes[0] || "DEV"} // Giá trị mặc định là mã đầu tiên
+            list={jobTypeOptions} // Truyền danh sách đã chuyển đổi
+            value={selectedCategory} // Giá trị được kiểm soát bởi state
+            onChange={handleCategoryChange} // Xử lý thay đổi
           />
           <SubmitBtn formBtn />
           {actionData?.error && (

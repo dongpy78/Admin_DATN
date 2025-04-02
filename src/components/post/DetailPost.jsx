@@ -132,19 +132,21 @@ const DetailPost = () => {
             Mô tả (Markdown)
           </label>
           <MDEditor
-            value={postCompany.companyData.descriptionMarkdown}
+            value={postCompany.postDetailData.descriptionMarkdown}
             height={300}
             preview="edit"
           />
           <input
             type="hidden"
             name="descriptionMarkdown"
-            value={postCompany.companyData.descriptionMarkdown}
+            value={postCompany.postDetailData.descriptionMarkdown}
+            disabled
           />
           <input
             type="hidden"
             name="descriptionHTML"
             value={postCompany.companyData.descriptionHTML}
+            disabled
           />
         </div>
 
