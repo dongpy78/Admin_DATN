@@ -134,7 +134,7 @@ const DetailPost = () => {
           <MDEditor
             value={postCompany.postDetailData.descriptionMarkdown}
             height={300}
-            preview="edit"
+            preview="live"
           />
           <input
             type="hidden"

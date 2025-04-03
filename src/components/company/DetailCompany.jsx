@@ -164,7 +164,7 @@ const DetailCompany = () => {
           <MDEditor
             value={company.descriptionMarkdown}
             height={300}
-            preview="edit"
+            preview="live"
           />
           <input
             type="hidden"
