@@ -28,6 +28,16 @@ const updatePackagePost = (data) => {
   return axiosInstance.put(`/update-package-post`, data);
 };
 
+const getStatisticalTypePost = (limit) => {
+  return axiosInstance.get(`/posts/statistics?limit=${limit}`);
+};
+
+const getStatisticalPackagePost = (data) => {
+  return axiosInstance.get(
+    `/get-statistical-package?limit=${data.limit}&offset=${data.offset}&fromDate=${data.fromDate}&toDate=${data.toDate}`
+  );
+};
+
 export {
   getAllUsers,
   getAllPackage,
@@ -35,4 +45,6 @@ export {
   getPackageById,
   createPackagePost,
   updatePackagePost,
+  getStatisticalTypePost,
+  getStatisticalPackagePost,
 };

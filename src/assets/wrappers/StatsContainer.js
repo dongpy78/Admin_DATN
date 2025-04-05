@@ -10,7 +10,7 @@ const Wrapper = styled.section`
   }
 
   @media (min-width: 1120px) {
-    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr;
   }
 `;
 export default Wrapper;

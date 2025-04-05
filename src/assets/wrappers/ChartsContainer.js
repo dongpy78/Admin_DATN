@@ -1,8 +1,8 @@
-import styled from 'styled-components';
+import styled from "styled-components";
 
 const Wrapper = styled.section`
   margin-top: 4rem;
-  text-align: center;
+  text-align: left;
   button {
     background: transparent;
     border-color: transparent;
