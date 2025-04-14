@@ -13,7 +13,9 @@ import {
 import {
   getStatisticalTypePost,
   getStatisticalPackagePost,
+  getStatisticalPackageCv,
 } from "../../services/userService";
+import { getStatisticalCv } from "../../services/cvService";
 import { PAGINATION } from "../../constants/paginationConstant";
 import CommonUtils from "../../utils/CommonUtils";
 
@@ -29,14 +31,23 @@ const DashboardStats = () => {
 
   const [user, setUser] = useState({});
   const [dataSum, setDataSum] = useState(0);
+  const [dataSumCv, setDataSumCv] = useState(0);
 
   const [dataStatisticalTypePost, setDataStatisticalTypePost] = useState([]);
   const [dataStatisticalPackagePost, setDataStatisticalPackagePost] = useState(
     []
   );
+
+  const [dataStatisticalPackageCv, setDataStatisticalPackageCv] = useState([]);
+
   const [count, setCount] = useState("");
+  const [countCv, setCountCv] = useState("");
+
   const [formDatePost, setFormDatePost] = useState(formattedToday);
   const [toDatePost, setToDatePost] = useState(formattedToday);
+
+  const [formDateCv, setFormDateCv] = useState(formattedToday);
+  const [toDateCv, setToDateCv] = useState(formattedToday);
 
   const [loading, setLoading] = useState(true);
 
@@ -57,9 +68,16 @@ const DashboardStats = () => {
         limit: "",
         offset: "",
       });
+    } else {
+      res = await getStatisticalPackageCv({
+        fromDate: formDateCv,
+        toDate: toDateCv,
+        limit: "",
+        offset: "",
+      });
     }
+    console.log("res", res);
     if (res) {
-      console.log("export", res);
       let formatData = res.data.data.map((item) => {
         let obj = {
           "Mã gói": item.id,
@@ -77,22 +95,40 @@ const DashboardStats = () => {
           "Statistical Package Post",
           "Statistical Package Post"
         );
+      } else {
+        await CommonUtils.exportExcel(
+          formatData,
+          "Statistical Package Candiate",
+          "Statistical Package Candiate"
+        );
       }
     }
   };
 
-  let onDatePicker = async (values, type = "packagePost") => {
+  let onDatePicker = async (values, type = "") => {
     let fromDate = formattedToday;
     let toDate = formattedToday;
     if (values) {
       fromDate = values[0].format("YYYY-MM-DD");
       toDate = values[1].format("YYYY-MM-DD");
     }
-
-    getStatistical(fromDate, toDate, type);
+    if (user.roleCode !== "Admin") {
+      let arrData = await getStatisticalCv({
+        ...sendParams,
+        fromDate,
+        toDate,
+        offset: 0,
+      });
+      if (arrData) {
+        setDataCv(arrData.data);
+        setCount(Math.ceil(arrData.count / PAGINATION.pagerow));
+      }
+    } else {
+      getStatistical(fromDate, toDate, type);
+    }
   };
 
-  let getStatistical = async (fromDate, toDate, type = "packagePost") => {
+  let getStatistical = async (fromDate, toDate, type = "packageCv") => {
     let arrData = [];
     if (type === "packagePost") {
       setFormDatePost(fromDate);
@@ -103,10 +139,22 @@ const DashboardStats = () => {
         offset: 0,
       });
       if (arrData) {
-        console.log("arrData", arrData);
         setDataStatisticalPackagePost(arrData.data.data);
         setDataSum(arrData.data.sum);
         setCount(Math.ceil(arrData.count / PAGINATION.pagerow));
+      }
+    } else {
+      setFormDateCv(fromDate);
+      arrData = await getStatisticalPackageCv({
+        fromDate,
+        toDate,
+        limit: PAGINATION.pagerow,
+        offset: 0,
+      });
+      if (arrData) {
+        setDataStatisticalPackageCv(arrData.data.data);
+        setDataSumCv(arrData.data.sum);
+        setCountCv(Math.ceil(arrData.count / PAGINATION.pagerow));
       }
     }
   };
@@ -153,8 +201,21 @@ const DashboardStats = () => {
   useEffect(() => {
     try {
       let fetchData = async () => {
-        // const userData = JSON.parse(localStorage.getItem("userData"));
-        getStatistical(formattedToday, formattedToday, "packagePost");
+        const userData = JSON.parse(localStorage.getItem("user"));
+        console.log("userData", userData);
+        if (userData.roleCode !== "Admin") {
+          let arrData = await getStatisticalCv({
+            ...sendParams,
+            companyId: userData.companyId,
+          });
+          if (arrData) {
+            setDataCv(arrData.data);
+            setCount(Math.ceil(arrData.count / PAGINATION.pagerow));
+          }
+        } else {
+          getStatistical(formattedToday, formattedToday, "packagePost");
+          getStatistical(formattedToday, formattedToday, "packageCv");
+        }
       };
       fetchData();
     } catch (error) {
@@ -272,6 +333,77 @@ const DashboardStats = () => {
                 <tr style={{ fontWeight: "500", backgroundColor: "#f0f0f0" }}>
                   <td colSpan="6" style={{ textAlign: "right" }}>
                     Tổng doanh thu: {dataSum} USD
+                  </td>
+                </tr>
+              </tfoot>
+            )}
+          </table>
+        </div>
+      </HistoryTradePostWrapper>
+
+      <HistoryTradePostWrapper>
+        <h5 className="title-list-job">
+          Bảng thống kê doanh thu các gói mua lượt xem ứng viên
+        </h5>
+        <div style={{ marginBottom: "20px" }}>
+          <RangePicker
+            onChange={(values) => onDatePicker(values, "packageCv")}
+            format={"DD/MM/YYYY"}
+          ></RangePicker>
+          <button
+            onClick={() => handleOnClickExport("packageCv")}
+            style={{
+              marginLeft: "10px",
+              padding: "5px 15px",
+              backgroundColor: "#4B49AC",
+              color: "white",
+              border: "none",
+              borderRadius: "4px",
+              cursor: "pointer",
+            }}
+          >
+            Export Excel
+          </button>
+        </div>
+
+        <div className="jobtype-container">
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>Tên gói</th>
+                <th>Mã gói</th>
+                <th>Số lượng đã bán</th>
+                <th>Doanh thu</th>
+              </tr>
+            </thead>
+            <tbody>
+              {dataStatisticalPackageCv.length > 0 ? (
+                dataStatisticalPackageCv.map((item, index) => (
+                  <tr key={item.id}>
+                    <td>
+                      {/* {index + 1 + (currentPage - 1) * PAGINATION.pagerow} */}
+                      {index + 1}
+                    </td>
+                    <td>{item.name}</td>
+                    <td>{item.id}</td>
+                    <td>{item.count}</td>
+                    <td>{item.total} USD</td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="8" style={{ textAlign: "center" }}>
+                    Không có dữ liệu
+                  </td>
+                </tr>
+              )}
+            </tbody>
+            {dataStatisticalPackagePost.length > 0 && (
+              <tfoot>
+                <tr style={{ fontWeight: "500", backgroundColor: "#f0f0f0" }}>
+                  <td colSpan="6" style={{ textAlign: "right" }}>
+                    Tổng doanh thu: {dataSumCv} USD
                   </td>
                 </tr>
               </tfoot>

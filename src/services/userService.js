@@ -38,6 +38,12 @@ const getStatisticalPackagePost = (data) => {
   );
 };
 
+const getStatisticalPackageCv = (data) => {
+  return axiosInstance.get(
+    `/get-statistical-package-cv?limit=${data.limit}&offset=${data.offset}&fromDate=${data.fromDate}&toDate=${data.toDate}`
+  );
+};
+
 export {
   getAllUsers,
   getAllPackage,
@@ -47,4 +53,5 @@ export {
   updatePackagePost,
   getStatisticalTypePost,
   getStatisticalPackagePost,
+  getStatisticalPackageCv,
 };

@@ -1,7 +1,9 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
-  margin-top: 4rem;
+  /* margin-top: 4rem; */
+  background-color: var(--background-secondary-color);
+  padding: 2rem;
   text-align: left;
   button {
     background: transparent;

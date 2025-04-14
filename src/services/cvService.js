@@ -22,10 +22,17 @@ const updatePackageCv = (data) => {
   return axiosInstance.put(`/update-package-cv`, data);
 };
 
+const getStatisticalCv = (data) => {
+  return axiosInstance.get(
+    `/get-statistical-cv?limit=${data.limit}&offset=${data.offset}&fromDate=${data.fromDate}&toDate=${data.toDate}&companyId=${data.companyId}`
+  );
+};
+
 export {
   getAllPackageCv,
   setActiveTypePackageCv,
   getPackageByIdCv,
   createPackageCv,
   updatePackageCv,
+  getStatisticalCv,
 };
