@@ -69,6 +69,11 @@ const links = [
     icon: <GoPackage />,
   },
   {
+    text: "Package Cv",
+    path: "package-cv",
+    icon: <GoPackage />,
+  },
+  {
     text: "profile",
     path: "profile",
     icon: <ImProfile />,

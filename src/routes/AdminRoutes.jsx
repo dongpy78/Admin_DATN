@@ -110,6 +110,7 @@ import DetailCompany from "../components/company/DetailCompany";
 import DetailPost from "../components/post/DetailPost";
 import PackagePost from "../pages/package-post";
 import AddPackagePost from "../components/package-post/AddPackagePost";
+import PackageCv from "../pages/package-cv";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -285,6 +286,12 @@ const AdminRoutes = {
     { path: "admin", element: <AdminPage /> },
     { path: "profile", element: <Profile /> },
     { path: "*", element: <NotFound /> },
+
+    //! PACKAGES CV
+    {
+      path: "package-cv",
+      element: <PackageCv />,
+    },
   ],
 };
 
