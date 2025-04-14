@@ -10,4 +10,22 @@ const setActiveTypePackageCv = (data) => {
   return axiosInstance.put(`/set-active-package-cv`, data);
 };
 
-export { getAllPackageCv, setActiveTypePackageCv };
+const getPackageByIdCv = (id) => {
+  return axiosInstance.get(`/get-package-cv-by-id?id=${id}`);
+};
+
+const createPackageCv = (data) => {
+  return axiosInstance.post(`/create-package-cv`, data);
+};
+
+const updatePackageCv = (data) => {
+  return axiosInstance.put(`/update-package-cv`, data);
+};
+
+export {
+  getAllPackageCv,
+  setActiveTypePackageCv,
+  getPackageByIdCv,
+  createPackageCv,
+  updatePackageCv,
+};

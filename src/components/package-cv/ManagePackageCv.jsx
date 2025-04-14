@@ -136,7 +136,7 @@ const ManagePackageCv = () => {
                       <td>
                         <div className="action-buttons">
                           <Link
-                            to={`/admin/package-post/edit/${item.id}/`}
+                            to={`/admin/package-cv/edit/${item.id}/`}
                             className="action-btn edit-btn"
                             title="Sửa"
                           >
@@ -179,7 +179,7 @@ const ManagePackageCv = () => {
           </table>
         </div>
 
-        <Link to="/admin/package-post/add" className="btn add-user-btn">
+        <Link to="/admin/package-cv/add" className="btn add-user-btn">
           Add Package Post
         </Link>
 
