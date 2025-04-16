@@ -41,8 +41,7 @@ const Wrapper = styled.aside`
 
       padding: 0.8rem 0;
 
-      padding-left: 2.5rem;
-      text-transform: capitalize;
+      padding-left: 1.2rem;
       transition: padding-left 0.3s ease-in-out;
       font-size: 14px;
       font-family: "Plus Jakarta Sans", sans-serif;
@@ -53,7 +52,7 @@ const Wrapper = styled.aside`
     }
 
     .nav-link:hover {
-      padding-left: 3rem;
+      padding-left: 1.4rem;
       color: var(--color-text-sidebar-secondary);
       background-color: var(--background-main-secondary);
       transition: var(--transition);

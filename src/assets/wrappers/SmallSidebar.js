@@ -57,7 +57,7 @@ const Wrapper = styled.aside`
     transition: var(--transition);
   }
   .nav-link:hover {
-    color: var(--primary-500);
+    color: var(--background-color);
   }
 
   .icon {
@@ -67,7 +67,7 @@ const Wrapper = styled.aside`
     place-items: center;
   }
   .active {
-    color: var(--primary-500);
+    color: var(--background-color);
   }
 `;
 export default Wrapper;

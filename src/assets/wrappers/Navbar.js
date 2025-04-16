@@ -54,5 +54,11 @@ const Wrapper = styled.nav`
       color: var(--text-color);
     }
   }
+
+  @media (max-width: 768px) {
+    .logo {
+      display: none; /* Ẩn logo trên điện thoại */
+    }
+  }
 `;
 export default Wrapper;
