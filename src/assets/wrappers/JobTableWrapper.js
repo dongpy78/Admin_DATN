@@ -71,7 +71,7 @@ const JobTableWrapper = styled.section`
   }
 
   .jobtype-container::-webkit-scrollbar-thumb {
-    background: var(--primary-500);
+    background: var(--background-color);
     border-radius: 6px;
     border: 2px solid var(--grey-100);
   }
@@ -82,7 +82,7 @@ const JobTableWrapper = styled.section`
 
   .jobtype-container {
     scrollbar-width: thin;
-    scrollbar-color: var(--primary-500) var(--grey-100);
+    scrollbar-color: var(--background-color) var(--grey-100);
   }
 
   /* Giới hạn chiều rộng cho các cột cụ thể */
