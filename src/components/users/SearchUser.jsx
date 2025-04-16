@@ -41,7 +41,7 @@ const SearchUser = () => {
     <Wrapper>
       <Form
         method="post"
-        className="form"
+        // className="form"
         action="/admin/list-user"
         ref={formRef}
       >

@@ -3,11 +3,14 @@ import styled from "styled-components";
 const Wrapper = styled.section`
   border-radius: var(--border-radius);
   width: 100%;
-  background: var(--background-secondary-color);
+  background-color: var(--background-third-color);
+
   padding: 3rem 2rem 4rem;
 
   .form-title {
     margin-bottom: 2rem;
+    font-family: "Plus Jakarta Sans", sans-serif;
+    color: var(--text-color);
   }
 
   .form {
@@ -29,10 +32,12 @@ const Wrapper = styled.section`
   }
 
   .form-input {
-    background-color: #fff;
+    background: var(--background-secondary-color);
+
     border: 1px solid #ccc;
     padding: 8px;
-    color: #333;
+    color: var(--text-color);
+
     width: 100%;
     border-radius: 4px;
   }

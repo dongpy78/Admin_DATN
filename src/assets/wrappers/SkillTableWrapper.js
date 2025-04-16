@@ -3,7 +3,8 @@ import styled from "styled-components";
 const SkillTableWrapper = styled.section`
   border-radius: var(--border-radius);
   width: 100%;
-  background: var(--background-secondary-color);
+  background-color: var(--background-third-color);
+
   /* padding: 3rem 2rem 4rem; */
   padding: 0 2rem 2rem 2rem;
 
@@ -11,21 +12,29 @@ const SkillTableWrapper = styled.section`
     overflow-x: auto; /* Cho phép cuộn ngang nếu bảng quá rộng */
     max-width: 100%;
     margin: 1rem 0 1rem 0;
+    border: 1px solid #e5eaef;
+    border-radius: 8px;
   }
 
   .title-list-job {
     font-size: 23px;
+    color: var(--text-color);
+    font-family: "Plus Jakarta Sans", sans-serif;
     margin-bottom: 1rem;
   }
 
   .title-amount {
     font-size: 16px;
+    color: var(--text-color);
+    font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   table {
     width: 100%;
     border-collapse: collapse; /* Loại bỏ khoảng cách giữa các ô */
     table-layout: auto; /* Tự động điều chỉnh chiều rộng cột */
+    border-radius: 8px; /* Thêm border-radius */
+    overflow: hidden; /* Quan trọng: Ẩn phần thừa của border-radius */
   }
 
   th,
@@ -35,17 +44,20 @@ const SkillTableWrapper = styled.section`
     white-space: nowrap; /* Ngăn nội dung xuống dòng */
     overflow: hidden; /* Ẩn nội dung tràn */
     text-overflow: ellipsis; /* Hiển thị "..." nếu nội dung quá dài */
+    vertical-align: middle; /* Căn giữa theo chiều dọc */
+    font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   th {
-    background-color: var(--primary-500); /* Màu nền cho header */
+    background-color: var(--background-color); /* Màu nền cho header */
     color: #fff;
     font-weight: normal;
+    border-bottom: 1px solid #ddd;
   }
 
   td {
-    background: #f8f9fa;
-    color: #000;
+    background: var(--background-secondary-color);
+    color: var(--text-color);
     border-bottom: 1px solid #ddd; /* Đường viền dưới mỗi hàng */
   }
 

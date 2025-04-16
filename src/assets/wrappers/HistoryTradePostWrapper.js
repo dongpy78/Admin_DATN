@@ -53,6 +53,7 @@ const HistoryTradePostWrapper = styled.section`
     background-color: var(--background-color); /* Màu nền cho header */
     color: #fff;
     font-weight: normal;
+    border-bottom: 1px solid #ddd;
   }
 
   td {
