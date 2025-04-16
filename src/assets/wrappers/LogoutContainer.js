@@ -8,6 +8,7 @@ const Wrapper = styled.div`
     align-items: center;
     justify-content: center;
     gap: 0 0.5rem;
+    font-family: "Plus Jakarta Sans", sans-serif;
   }
 
   .img {
@@ -25,7 +26,7 @@ const Wrapper = styled.div`
     text-align: center;
     visibility: hidden;
     border-radius: var(--border-radius);
-    background: var(--primary-500);
+    background: var(--background-main-custom);
   }
 
   .show-dropdown {

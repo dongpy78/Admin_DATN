@@ -280,8 +280,8 @@ const DashboardStats = () => {
             style={{
               marginLeft: "10px",
               padding: "5px 15px",
-              backgroundColor: "#4B49AC",
-              color: "white",
+              backgroundColor: "#5d87ff",
+              color: "#fff",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",
@@ -355,8 +355,8 @@ const DashboardStats = () => {
             style={{
               marginLeft: "10px",
               padding: "5px 15px",
-              backgroundColor: "#4B49AC",
-              color: "white",
+              backgroundColor: "#5d87ff",
+              color: "#fff",
               border: "none",
               borderRadius: "4px",
               cursor: "pointer",

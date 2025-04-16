@@ -34,15 +34,24 @@ const Wrapper = styled.aside`
     .nav-link {
       display: flex;
       align-items: center;
-      color: var(--text-secondary-color);
+      color: var(--text-color);
+
       padding: 1rem 0;
       padding-left: 2.5rem;
       text-transform: capitalize;
       transition: padding-left 0.3s ease-in-out;
+      font-size: 14px;
+      font-family: "Plus Jakarta Sans", sans-serif;
     }
+
+    .nav-link:not(:first-child) {
+      margin-top: 0.2rem;
+    }
+
     .nav-link:hover {
       padding-left: 3rem;
-      color: var(--primary-500);
+      color: var(--color-text-sidebar-secondary);
+      background-color: var(--background-main-secondary);
       transition: var(--transition);
     }
     .icon {
@@ -52,7 +61,8 @@ const Wrapper = styled.aside`
       place-items: center;
     }
     .active {
-      color: var(--primary-500);
+      color: #fff;
+      background-color: var(--background-main-custom);
     }
     .pending {
       background: var(--background-color);

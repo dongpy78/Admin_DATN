@@ -66,24 +66,44 @@ html {
     0 4px 6px -2px rgba(0, 0, 0, 0.05);
   --shadow-4: 0 20px 25px -5px rgba(0, 0, 0, 0.1),
     0 10px 10px -5px rgba(0, 0, 0, 0.04);
+
+  --color-text-sidebar: #2a3547;
+  --background-main-custom: #5d87ff;
+  --color-text-sidebar-secondary: #5d87ff;
+  --background-main-secondary: #ecf2ff;
+  --color-active: #49beff;
+
   /* DARK MODE */
 
-  --dark-mode-bg-color: #333;
+  /* --dark-mode-bg-color: #333;
   --dark-mode-text-color: #f0f0f0;
   --dark-mode-bg-secondary-color: #3f3f3f;
-  --dark-mode-text-secondary-color: var(--grey-300);
+  --dark-mode-text-secondary-color: var(--grey-300); */
 
-  --background-color: var(--grey-50);
+  --dark-mode-bg-color: #2a3447;
+  --dark-mode-text-color: #7c8fac;
+  --dark-mode-bg-secondary-color: #2a3447;
+  --dark-mode-bg-third-color: #343e50;
+  --dark-mode-text-secondary-color: #eaeff4;
+
+  /* --background-color: var(--grey-50);
   --text-color: var(--grey-900);
   --background-secondary-color: var(--white);
-  --text-secondary-color: var(--grey-500);
+  --text-secondary-color: var(--grey-500); */
+
+  --background-color: var(--background-main-custom);
+  --text-color: var(--color-text-sidebar);
+  --background-secondary-color: var(--dark-mode-text-secondary-color);
+  --text-secondary-color: var(--dark-mode-bg-third-color);
+  --background-third-color: #f1f3f5;
 }
 
 .dark-theme {
-  --text-color: var(--dark-mode-text-color);
-  --background-color: var(--dark-mode-bg-color);
-  --text-secondary-color: var(--dark-mode-text-secondary-color);
-  --background-secondary-color: var(--dark-mode-bg-secondary-color);
+  --text-color: var(--dark-mode-text-color) !important;
+  --background-color: var(--dark-mode-bg-color) !important;
+  --text-secondary-color: var(--dark-mode-text-secondary-color) !important;
+  --background-secondary-color: var(--dark-mode-bg-secondary-color) !important;
+  --background-third-color: var(--dark-mode-bg-third-color) !important;
 }
 
 body {
@@ -179,7 +199,7 @@ ul {
 .btn {
   cursor: pointer;
   color: var(--white);
-  background: var(--primary-500);
+  background: var(--background-main-custom);
   border: transparent;
   border-radius: var(--border-radius);
   letter-spacing: var(--letter-spacing);
@@ -190,7 +210,6 @@ ul {
   display: inline-block;
 }
 .btn:hover {
-  background: var(--primary-700);
   box-shadow: var(--shadow-3);
 }
 .btn-hipster {
