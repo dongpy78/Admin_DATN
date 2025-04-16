@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
+  background-color: #fff;
   nav {
     width: var(--fluid-width);
     max-width: var(--max-width);
@@ -11,7 +12,7 @@ const Wrapper = styled.section`
   }
 
   .page {
-    min-height: calc(100vh - var(--nav-height));
+    min-height: 100vh;
     display: grid;
     align-items: center;
     margin-top: -3rem;

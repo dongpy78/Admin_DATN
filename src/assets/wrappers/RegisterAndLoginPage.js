@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 const Wrapper = styled.section`
+  background-color: #fff;
   min-height: 100vh;
   display: grid;
   place-items: center;
@@ -13,7 +14,7 @@ const Wrapper = styled.section`
 
   .form {
     max-width: 400px;
-    border-top: 5px solid var(--primary-500);
+    border-top: 5px solid var(--background-color);
   }
   h4 {
     text-align: center;

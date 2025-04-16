@@ -14,12 +14,12 @@ import { GoPackage } from "react-icons/go";
 
 const links = [
   {
-    text: "Dashboard",
+    text: "Trang chủ",
     path: ".",
     icon: <HiOutlineHome />,
   },
   {
-    text: "Users",
+    text: "Quản lý người dùng",
     path: "list-user",
     icon: <FaWpforms />,
   },
