@@ -78,11 +78,11 @@ const links = [
     path: "profile",
     icon: <ImProfile />,
   },
-  {
-    text: "admin",
-    path: "admin",
-    icon: <MdAdminPanelSettings />,
-  },
+  // {
+  //   text: "admin",
+  //   path: "admin",
+  //   icon: <MdAdminPanelSettings />,
+  // },
 ];
 
 export default links;
