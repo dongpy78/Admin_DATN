@@ -95,9 +95,9 @@ const UserTable = ({ users, onBanUnban, currentPage = 1, totalCount = 0 }) => {
           </tbody>
         </table>
       </div>
-      <Link to="/admin/users/add" className="btn add-user-btn">
+      {/* <Link to="/admin/users/add" className="btn add-user-btn">
         Add User
-      </Link>
+      </Link> */}
     </UserTableWrapper>
   );
 };
