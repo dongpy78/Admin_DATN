@@ -6,6 +6,8 @@ import {
   FaCheckCircle,
   FaTimesCircle,
 } from "react-icons/fa";
+import { getFromLocalStorage } from "../../utils/localStorage";
+
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import { Link } from "react-router-dom";
 import axiosInstance from "../../libs/axiosInterceptor";
@@ -25,7 +27,13 @@ const TablePost = ({
 
   // Hàm xử lý từ chối kiểm duyệt
   const handleRejectCensor = async (id, currentCensor) => {
+    const post = typePost.find((p) => p.id === id);
+    if (!post) {
+      showErrorToast("Không tìm thấy bài đăng");
+      return;
+    }
     const isRejected = currentCensor === "Đã bị từ chối";
+    const userId = post?.userId;
 
     const confirmMessage = isRejected
       ? "Bài đăng đã bị từ chối, bạn vẫn muốn tiếp tục?"
@@ -39,7 +47,7 @@ const TablePost = ({
           const payload = {
             id,
             statusCode: "PS2", // Trạng thái "Đã bị từ chối"
-            userId: "13", // ID người dùng
+            userId: userId, // ID người dùng
             note: reason, // Sử dụng lý do từ chối
           };
 
@@ -79,7 +87,13 @@ const TablePost = ({
 
   // Hàm xử lý chặn/bỏ chặn bài đăng
   const handleBanUnban = async (id, currentStatus) => {
+    const post = typePost.find((p) => p.id === id);
+    if (!post) {
+      showErrorToast("Không tìm thấy bài đăng");
+      return;
+    }
     const isBanned = currentStatus === "Đã bị chặn";
+    const userId = post.userId;
     const confirmMessage = isBanned
       ? "Bạn có chắc muốn kích hoạt lại bài đăng này?"
       : "Bạn có chắc muốn chặn bài đăng này?";
@@ -88,8 +102,8 @@ const TablePost = ({
       try {
         const apiUrl = isBanned ? "/posts/active" : "/posts/ban";
         const payload = isBanned
-          ? { id, userId: "13", note: "Restored for review" } // Dữ liệu cho active-post
-          : { postId: id, userId: "13", note: "Spam content" }; // Dữ liệu cho ban-post
+          ? { id, userId: userId, note: "Restored for review" } // Dữ liệu cho active-post
+          : { postId: id, userId: userId, note: "Spam content" }; // Dữ liệu cho ban-post
 
         const response = await axiosInstance.post(apiUrl, payload);
 
@@ -114,8 +128,14 @@ const TablePost = ({
 
   // Hàm xử lý duyệt bài đăng
   const handleApproveCensor = async (id, currentCensor) => {
+    const post = typePost.find((p) => p.id === id);
+    if (!post) {
+      showErrorToast("Không tìm thấy bài đăng");
+      return;
+    }
     const isPending = currentCensor === "Chờ kiểm duyệt";
     const isAccepted = currentCensor === "Đã kiểm duyệt";
+    const userId = post.userId;
 
     const confirmMessage = isAccepted
       ? "Bài đăng đã được duyệt, bạn vẫn muốn tiếp tục?"
@@ -127,7 +147,7 @@ const TablePost = ({
         const payload = {
           id,
           statusCode: "PS1", // Trạng thái "Đã kiểm duyệt"
-          userId: "13", // ID người dùng
+          userId: userId, // ID người dùng
           note: "Approved", // Ghi chú
         };
 
