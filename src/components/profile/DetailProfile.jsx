@@ -151,11 +151,11 @@ const DetailProfile = () => {
     if (!files || files.length === 0) return;
 
     const file = files[0];
-    const maxSize = 512 * 1024;
-    if (file.size > maxSize) {
-      showErrorToast("Ảnh đại diện vượt quá kích thước 0.5MB!");
-      return;
-    }
+    // const maxSize = 512 * 1024;
+    // if (file.size > maxSize) {
+    //   showErrorToast("Ảnh đại diện vượt quá kích thước 0.5MB!");
+    //   return;
+    // }
 
     try {
       const objectUrl = URL.createObjectURL(file);

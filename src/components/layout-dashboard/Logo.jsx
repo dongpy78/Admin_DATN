@@ -1,5 +1,5 @@
 // import logo from "../../assets/images/logo.svg";
-import logo from "../../assets/images/techworks.png";
+import logo from "../../assets/images/logo-main.svg";
 
 const Logo = () => {
   return (
