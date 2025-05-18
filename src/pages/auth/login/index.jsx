@@ -75,7 +75,7 @@ const Login = () => {
           keyLocalStorage.accessToken,
           response.data.accessToken
         );
-        showSuccessToast("Login successful!");
+        showSuccessToast("Đăng nhập thành công");
         navigate("/admin");
       } else {
         showErrorToast(`Unexpected status code: ${response.status}`);
