@@ -73,7 +73,7 @@ const links = [
   },
   {
     text: "Quản lý blog IT",
-    path: "blog-it",
+    path: "blogs-it",
     icon: <FaBookOpen />,
   },
   {

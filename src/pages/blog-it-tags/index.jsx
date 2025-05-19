@@ -1,7 +1,12 @@
 import React from "react";
+import ManageTagBlogs from "../../components/tags-blog/ManageTagBlogs";
 
 const BlogITTag = () => {
-  return <div>BlogITTag</div>;
+  return (
+    <>
+      <ManageTagBlogs />
+    </>
+  );
 };
 
 export default BlogITTag;

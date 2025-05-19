@@ -116,6 +116,8 @@ import CategoryBlogIT from "../pages/category-blog-it";
 import BlogIT from "../pages/blog-it";
 import BlogITTag from "../pages/blog-it-tags";
 import AddCategoryBlog from "../components/categories-blog/AddCategoryBlog";
+import AddTagBlog from "../components/tags-blog/AddTagBlog";
+import AddBlogIT from "../components/blog-it/AddBlogIT";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -322,14 +324,30 @@ const AdminRoutes = {
 
     //! Blog IT
     {
-      path: "blog-it",
+      path: "blogs-it",
       element: <BlogIT />,
+    },
+    {
+      path: "blogs-it/add",
+      element: <AddBlogIT />,
+    },
+    {
+      path: "blogs-it/edit/:id",
+      element: <AddBlogIT />,
     },
 
     //! Blog Tags
     {
       path: "tag-blog",
       element: <BlogITTag />,
+    },
+    {
+      path: "tag-blog/add",
+      element: <AddTagBlog />,
+    },
+    {
+      path: "tag-blog/edit/:id",
+      element: <AddTagBlog />,
     },
   ],
 };
