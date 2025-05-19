@@ -12,7 +12,6 @@ import {
   showSuccessToast,
   showErrorToast,
 } from "../../utils/toastNotifications";
-import FormRowSelectV1 from "../layout-dashboard/FormRowSelect-V1";
 
 const AddPackagePost = () => {
   const [isActionADD, setisActionADD] = useState(true);

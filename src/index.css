@@ -203,11 +203,12 @@ ul {
   border: transparent;
   border-radius: var(--border-radius);
   letter-spacing: var(--letter-spacing);
-  padding: 0.375rem 0.75rem;
+  padding: 0.575rem 0.95rem;
   box-shadow: var(--shadow-1);
   transition: var(--transition);
   text-transform: capitalize;
   display: inline-block;
+  font-size: 14px;
 }
 .btn:hover {
   box-shadow: var(--shadow-3);

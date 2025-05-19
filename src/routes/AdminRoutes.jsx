@@ -112,6 +112,10 @@ import PackagePost from "../pages/package-post";
 import AddPackagePost from "../components/package-post/AddPackagePost";
 import PackageCv from "../pages/package-cv";
 import AddPackageCv from "../components/package-cv/AddPackageCv";
+import CategoryBlogIT from "../pages/category-blog-it";
+import BlogIT from "../pages/blog-it";
+import BlogITTag from "../pages/blog-it-tags";
+import AddCategoryBlog from "../components/categories-blog/AddCategoryBlog";
 
 export const checkDefaultTheme = () => {
   const isDarkTheme = localStorage.getItem("darkTheme") === "true";
@@ -300,6 +304,32 @@ const AdminRoutes = {
     {
       path: "package-cv/edit/:id",
       element: <AddPackageCv />,
+    },
+
+    //! Category Blog
+    {
+      path: "categories-blog",
+      element: <CategoryBlogIT />,
+    },
+    {
+      path: "categories-blog/add",
+      element: <AddCategoryBlog />,
+    },
+    {
+      path: "categories-blog/edit/:id",
+      element: <AddCategoryBlog />,
+    },
+
+    //! Blog IT
+    {
+      path: "blog-it",
+      element: <BlogIT />,
+    },
+
+    //! Blog Tags
+    {
+      path: "tag-blog",
+      element: <BlogITTag />,
     },
   ],
 };

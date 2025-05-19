@@ -11,6 +11,9 @@ import { GiBrain } from "react-icons/gi";
 import { BsBuildingCheck } from "react-icons/bs";
 import { BsFillFileTextFill } from "react-icons/bs";
 import { GoPackage } from "react-icons/go";
+import { FaBookOpen } from "react-icons/fa";
+import { AiFillTags } from "react-icons/ai";
+import { BiSolidCategory } from "react-icons/bi";
 
 const links = [
   {
@@ -62,6 +65,21 @@ const links = [
     text: "Quản lý bài đăng",
     path: "post",
     icon: <BsFillFileTextFill />,
+  },
+  {
+    text: "Quản lý danh mục blog",
+    path: "categories-blog",
+    icon: <BiSolidCategory />,
+  },
+  {
+    text: "Quản lý blog IT",
+    path: "blog-it",
+    icon: <FaBookOpen />,
+  },
+  {
+    text: "Quản lý tags blog",
+    path: "tag-blog",
+    icon: <AiFillTags />,
   },
   {
     text: "Quản lý gói bài đăng",

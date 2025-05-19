@@ -165,28 +165,6 @@ const JobTableWrapper = styled.section`
     scrollbar-color: var(--background-color) var(--grey-100);
   }
 
-  /* Giới hạn chiều rộng cho các cột cụ thể */
-  th:nth-child(1),
-  td:nth-child(1) {
-    width: 50px; /* ID */
-  }
-  th:nth-child(2),
-  td:nth-child(2) {
-    width: 100px; /* Name */
-  }
-  th:nth-child(3),
-  td:nth-child(3) {
-    min-width: 50px; /* Email */
-  }
-  th:nth-child(4),
-  td:nth-child(4) {
-    width: 120px; /* Role */
-  }
-  th:nth-child(5),
-  td:nth-child(5) {
-    width: 120px; /* Date of Birth */
-  }
-
   .actions-custom {
     /* display: flex; */
     gap: 8px; /* Khoảng cách giữa các nút */

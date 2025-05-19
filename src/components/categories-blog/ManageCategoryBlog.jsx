@@ -1,0 +1,206 @@
+import React, { useEffect, useState } from "react";
+import { PAGINATION } from "../../constants/paginationConstant";
+import { message } from "antd";
+import {
+  getAllCategoryBlog,
+  deleteCategoryBlog,
+} from "../../services/blogService";
+import Wrapper from "../../assets/wrappers/DashboardFormPage";
+import { Input } from "antd";
+import { Form, Link } from "react-router-dom";
+import PageTypeJob from "../type-jobs/PageTypeJob";
+import ManagePackagePostWrapper from "../../assets/wrappers/ManagePackagePostWrapper";
+import { FaEdit } from "react-icons/fa";
+import { MdDelete } from "react-icons/md";
+import { showSuccessToast } from "../../utils/toastNotifications";
+
+const ManageCategoryBlog = () => {
+  const [dataCategoryBlog, setDataCategoryBlog] = useState([]);
+  const [count, setCount] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
+
+  const numOfPages = Math.ceil(count / PAGINATION.pagerow);
+
+  const fetchCategories = async () => {
+    setLoading(true);
+    const params = {
+      page: currentPage,
+      limit: PAGINATION.pagerow,
+      search: search.trim(),
+    };
+    console.log("Fetching with params:", params);
+    try {
+      const res = await getAllCategoryBlog(params);
+      console.log("Full API response:", JSON.stringify(res, null, 2));
+      if (res && res.data && res.data.data) {
+        setDataCategoryBlog(res.data.data.categories || []);
+        setCount(res.data.data.total || 0);
+        console.log(
+          "Categories:",
+          res.data.data.categories,
+          "Count:",
+          res.data.data.total
+        );
+      } else {
+        setDataCategoryBlog([]);
+        setCount(0);
+        message.warning("Không nhận được dữ liệu từ server");
+      }
+    } catch (error) {
+      console.error("Error fetching categories:", error);
+      message.error(
+        `Lỗi khi tải danh sách danh mục: ${
+          error.response?.data?.message || error.message || "Server error"
+        }`
+      );
+      setDataCategoryBlog([]);
+      setCount(0);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDeleteCategory = async (id) => {
+    // Hiển thị xác nhận trước khi xóa
+    const confirm = window.confirm(
+      `Bạn có chắc muốn xóa danh mục với ID ${id}?`
+    );
+    if (!confirm) return;
+
+    setLoading(true);
+    try {
+      const res = await deleteCategoryBlog(id);
+      console.log("Delete response:", res);
+      if (res && res.data) {
+        showSuccessToast(res.data.message || "Xóa danh mục thành công");
+        // Làm mới danh sách
+        await fetchCategories();
+      } else {
+        message.warning("Không nhận được phản hồi từ server");
+      }
+    } catch (error) {
+      console.error("Error deleting category:", error);
+      message.error(
+        `Lỗi khi xóa danh mục: ${
+          error.response?.data?.message || error.message || "Server error"
+        }`
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    console.log("useEffect triggered - Page:", currentPage, "Search:", search);
+    fetchCategories();
+  }, [search, currentPage]);
+
+  const handleSearch = (value) => {
+    console.log("Search value:", value);
+    setSearch(value);
+    setCurrentPage(1);
+  };
+
+  const handlePageChange = (page) => {
+    console.log("Page changed to:", page);
+    setCurrentPage(page);
+  };
+
+  return (
+    <>
+      <Wrapper>
+        <Form className="form">
+          <h5 className="form-title">Tìm kiếm danh mục</h5>
+          <div className="form-center">
+            <Input.Search
+              onSearch={handleSearch}
+              className="mt-5 mb-5"
+              placeholder="Nhập tên danh mục cần tìm"
+              allowClear
+              enterButton="Tìm kiếm"
+            />
+          </div>
+        </Form>
+      </Wrapper>
+      <ManagePackagePostWrapper>
+        <h5 className="title-amount">
+          Danh sách các danh mục blog ({count} kết quả)
+        </h5>
+        <div className="package-post-container">
+          <table>
+            <thead>
+              <tr>
+                <th>STT</th>
+                <th>ID</th>
+                <th>Tên danh mục</th>
+                <th>Mô tả danh mục</th>
+                <th>Thao tác</th>
+              </tr>
+            </thead>
+            <tbody>
+              {Array.isArray(dataCategoryBlog) &&
+              dataCategoryBlog.length > 0 ? (
+                dataCategoryBlog.map((item, index) => (
+                  <tr key={item.id || index}>
+                    <td>
+                      {index + 1 + (currentPage - 1) * PAGINATION.pagerow}
+                    </td>
+                    <td>{item.id || "N/A"}</td>
+                    <td>{item.name || "N/A"}</td>
+                    <td>{item.description || "N/A"}</td>
+                    <td>
+                      <div className="action-buttons">
+                        <Link
+                          to={`/admin/categories-blog/edit/${item.id}`}
+                          className="action-btn edit-btn"
+                          title="Sửa"
+                        >
+                          <FaEdit />
+                        </Link>
+                        <button
+                          title="Xóa danh mục"
+                          className="action-btn delete-btn"
+                          onClick={() => handleDeleteCategory(item.id)}
+                        >
+                          <MdDelete />
+                        </button>
+                      </div>
+                    </td>
+                  </tr>
+                ))
+              ) : (
+                <tr>
+                  <td colSpan="4" style={{ textAlign: "center" }}>
+                    {loading
+                      ? "Đang tải..."
+                      : search
+                      ? `Không tìm thấy danh mục với từ khóa "${search}"`
+                      : currentPage > 1
+                      ? "Không có dữ liệu ở trang này"
+                      : "Không có dữ liệu"}
+                  </td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+
+        <Link to="/admin/categories-blog/add" className="btn add-user-btn">
+          Thêm danh mục
+        </Link>
+
+        {numOfPages > 1 && (
+          <PageTypeJob
+            numOfPages={numOfPages}
+            currentPage={currentPage}
+            handlePageChange={handlePageChange}
+          />
+        )}
+      </ManagePackagePostWrapper>
+    </>
+  );
+};
+
+export default ManageCategoryBlog;
