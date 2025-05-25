@@ -103,7 +103,7 @@ const ManageTagBlogs = () => {
     <>
       <Wrapper>
         <Form className="form">
-          <h5 className="form-title">Tìm kiếm thẻ tags</h5>
+          <h5 className="form-title">Tìm kiếm từ khóa</h5>
           <div className="form-center">
             <Input.Search
               onSearch={handleSearch}

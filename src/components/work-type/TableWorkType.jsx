@@ -63,7 +63,7 @@ const TableWorkType = ({
           </table>
         </div>
         <Link to="/admin/work-type/add" className="btn add-user-btn">
-          Add Work Type
+          Thêm hình thức làm việc
         </Link>
       </JobTableWrapper>
     </>

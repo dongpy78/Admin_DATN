@@ -144,7 +144,7 @@ const ManageBlogIT = () => {
                 <th>Ảnh</th>
                 <th>Tiêu đề</th>
                 <th>Danh mục</th>
-                <th>Tags</th>
+                {/* <th>Tags</th> */}
                 <th>Ngày tạo</th>
                 <th>Trạng thái</th>
                 <th>Thao tác</th>
@@ -176,11 +176,20 @@ const ManageBlogIT = () => {
                     </td>
                     <td>{item.title || "N/A"}</td>
                     <td>{item.category?.name || "N/A"}</td>
-                    <td>
+                    {/* <td>
                       {item.tags && item.tags.length > 0 ? (
                         <div className="tag-list">
                           {item.tags.map((tag) => (
-                            <span key={tag.id} className="tag-chip">
+                            <span
+                              style={{
+                                marginLeft: "1rem",
+                                padding: "2px 4px 4px",
+                                background: "#1098ad",
+                                borderRadius: "4px",
+                              }}
+                              key={tag.id}
+                              className="tag-chip"
+                            >
                               {tag.name}
                             </span>
                           ))}
@@ -188,7 +197,7 @@ const ManageBlogIT = () => {
                       ) : (
                         "N/A"
                       )}
-                    </td>
+                    </td> */}
                     <td>{formatDate(item.createdAt)}</td>
                     <td>{item.status?.value || "N/A"}</td>
                     <td>

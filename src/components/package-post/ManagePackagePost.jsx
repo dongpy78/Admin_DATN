@@ -198,7 +198,7 @@ const ManagePackagePost = () => {
         </div>
 
         <Link to="/admin/package-post/add" className="btn add-user-btn">
-          Add Package Post
+          Thêm gói bài đăng
         </Link>
 
         {numOfPages > 1 && (

@@ -65,7 +65,7 @@ const TableExperience = ({
           </table>
         </div>
         <Link to="/admin/work-exp/add" className="btn add-user-btn">
-          Add Experience
+          Thêm kinh nghiệm làm việc
         </Link>
       </JobTableWrapper>
     </>

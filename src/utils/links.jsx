@@ -67,17 +67,17 @@ const links = [
     icon: <BsFillFileTextFill />,
   },
   {
-    text: "Quản lý danh mục blog",
+    text: "Quản lý danh mục bài viết",
     path: "categories-blog",
     icon: <BiSolidCategory />,
   },
   {
-    text: "Quản lý blog IT",
+    text: "Quản lý bài viết IT",
     path: "blogs-it",
     icon: <FaBookOpen />,
   },
   {
-    text: "Quản lý tags blog",
+    text: "Quản lý từ khóa bài viết",
     path: "tag-blog",
     icon: <AiFillTags />,
   },

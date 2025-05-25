@@ -63,7 +63,7 @@ const TableSalary = ({
           </table>
         </div>
         <Link to="/admin/work-salary/add" className="btn add-user-btn">
-          Add Salary
+          Thêm khoảng lương
         </Link>
       </JobTableWrapper>
     </>

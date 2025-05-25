@@ -82,7 +82,7 @@ const TypeJobTable = ({
         </table>
       </div>
       <Link to="/admin/type-job/add" className="btn add-user-btn">
-        Add Type Job
+        Thêm loại công việc
       </Link>
     </JobTableWrapper>
   );

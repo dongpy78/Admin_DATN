@@ -63,7 +63,7 @@ const TableLevel = ({
           </table>
         </div>
         <Link to="/admin/work-level/add" className="btn add-user-btn">
-          Add Level
+          Thêm cấp bậc
         </Link>
       </JobTableWrapper>
     </>

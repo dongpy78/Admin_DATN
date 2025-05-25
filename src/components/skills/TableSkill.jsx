@@ -64,7 +64,7 @@ const TableSkill = ({
         </table>
       </div>
       <Link to="/admin/work-skill/add" className="btn add-user-btn">
-        Add Skill
+        Thêm kỹ năng
       </Link>
     </SkillTableWrapper>
   );

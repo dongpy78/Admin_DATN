@@ -180,7 +180,7 @@ const ManagePackageCv = () => {
         </div>
 
         <Link to="/admin/package-cv/add" className="btn add-user-btn">
-          Add Package Post
+          Thêm gói xem ứng viên
         </Link>
 
         {numOfPages > 1 && (
