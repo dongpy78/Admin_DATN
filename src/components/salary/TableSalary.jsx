@@ -21,7 +21,7 @@ const TableSalary = ({
   return (
     <>
       <JobTableWrapper>
-        <h5 className="title-list-job">Danh sách hình thức làm việc</h5>
+        <h5 className="title-list-job">Danh sách khoảng lương</h5>
         <h5 className="title-amount">Tổng số lượng: {totalCount}</h5>
         <div className="jobtype-container">
           <table>

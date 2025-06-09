@@ -2,10 +2,10 @@ import React, { useState, useEffect } from "react";
 import JobTableWrapper from "../../assets/wrappers/JobTableWrapper";
 import PageTypeJob from "../../components/type-jobs/PageTypeJob";
 import axiosInstance from "../../libs/axiosInterceptor";
-import {
-  showSuccessToast,
-  showErrorToast,
-} from "../../utils/toastNotifications";
+// import {
+//   showSuccessToast,
+//   showErrorToast,
+// } from "../../utils/toastNotifications";
 import { useLoaderData, useActionData, useNavigate } from "react-router-dom";
 import SearchCompany from "../../components/company/SearchCompany";
 import TableCompany from "../../components/company/TableCompany";
@@ -119,7 +119,7 @@ const Company = () => {
   const handlePageChange = (pageNumber) => {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set("page", pageNumber);
-    navigate(`/admin/companies?${searchParams.toString()}`);
+    navigate(`/admin/company?${searchParams.toString()}`);
   };
 
   useEffect(() => {
