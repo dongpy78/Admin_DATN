@@ -199,7 +199,27 @@ const ManageBlogIT = () => {
                       )}
                     </td> */}
                     <td>{formatDate(item.createdAt)}</td>
-                    <td>{item.status?.value || "N/A"}</td>
+                    <td>
+                      <span
+                        style={{
+                          display: "inline-block",
+                          padding: "4px 8px",
+                          borderRadius: "12px",
+                          fontSize: "12px",
+                          fontWeight: "500",
+                          color: "#fff",
+                          backgroundColor:
+                            item.status?.code === "PUBLISHED"
+                              ? "#28a745" // Màu xanh lá cho Đăng tải
+                              : item.status?.code === "DRAFT"
+                              ? "#6c757d" // Màu xám cho Bản nháp
+                              : "#6c757d", // Mặc định nếu không có trạng thái
+                          textTransform: "uppercase",
+                        }}
+                      >
+                        {item.status?.value || "N/A"}
+                      </span>
+                    </td>
                     <td>
                       <div className="action-buttons">
                         <Link
